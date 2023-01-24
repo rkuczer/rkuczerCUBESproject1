@@ -2,23 +2,25 @@ from secrets import username
 import requests, json, urllib3
 import urllib.request
 
-
+url = 'https://rkuczer.wufoo.com/api/v3/'
 def getInfo():
-
     password = 'zqleboe1115c3h'
-    url = 'https://rkuczer.wufoo.com/api/v3/'
-
+    global url
     password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
     password_mgr.add_password(None, url, username, password)
-
     auth_handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
     opener = urllib.request.build_opener(auth_handler)
+    return opener
 
-
+def getResponse(opener):
+    global url
+    #url = 'https://rkuczer.wufoo.com/api/v3/'
     response = opener.open(url + 'forms/zqleboe1115c3h.json')
-    data = json.load(response)
-
-    dataParse = (json.dumps(data, indent=4, sort_keys=True))
+    if response.status == 200:
+        data = json.load(response)
+        dataParse = (json.dumps(data, indent=4, sort_keys=True))
+    else:
+        print(f'Error {response.status_code}: {response.text}')
     return dataParse
 
 def saveFile(dataParse):
@@ -27,29 +29,7 @@ def saveFile(dataParse):
     file.close()
     print(dataParse)
 
-#print(response.read())
-#def createPassManager(password_mgr):
-#    username = '3ZZ4-X0EF-NFY1-6IYY'
-#    password = 'zqleboe1115c3h'
-#    url = 'https://rkuczer.wufoo.com/api/v3/'
-#    password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
-#    password_mgr.add_password(None, url, username, password)
-#    return password_mgr
-#def createAuthHandler(password_mgr, url):
-#    auth_handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
- #   opener = urllib.request.build_opener(auth_handler)
- #   response = opener.open(url+'forms.json')
-
-#def printResponse(response):
-#    print(response.read())
-    #response = requests.get(f"{url}forms/{password}/entries.json", params={"api_key": apiKey})
-
-
-    #if response.status_code == 200:
-    #    print(response.json())
-    #else:
-    #    print(f'Error {response.status_code}: {response.text}')
-
-
-dataParse = getInfo()
+opener = getInfo()
+getResponse(opener)
+dataParse = getResponse(opener)
 saveFile(dataParse)
