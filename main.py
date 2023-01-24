@@ -1,8 +1,10 @@
+from secrets import username
 import requests, json, urllib3
 import urllib.request
 
+
 def getInfo():
-    username = '3ZZ4-X0EF-NFY1-6IYY'
+
     password = 'zqleboe1115c3h'
     url = 'https://rkuczer.wufoo.com/api/v3/'
 
