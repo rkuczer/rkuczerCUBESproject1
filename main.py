@@ -27,7 +27,7 @@ def getResponse(opener):
 def saveFile(dataParse):
     formatData = ""
     for entry in dataParse:
-        formatData += "\n" + entry + "\n"
+        formatData += entry
     with open("info.txt", "w") as file:
         file.write(dataParse)
     file.close()
