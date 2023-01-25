@@ -19,9 +19,9 @@ def getResponse(opener):
     if response.status == 200:
         data = json.load(response)
         dataParse = (json.dumps(data, indent=4, sort_keys=True))
-
     else:
         print(f'Error {response.status_code}: {response.text}')
+        exit()
     return dataParse
 
 def saveFile(dataParse):
