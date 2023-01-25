@@ -15,19 +15,23 @@ def getInfo():
 def getResponse(opener):
     global url
     #url = 'https://rkuczer.wufoo.com/api/v3/'
-    response = opener.open(url + 'forms/zqleboe1115c3h.json')
+    response = opener.open(url + 'forms/zqleboe1115c3h/entries.json')
     if response.status == 200:
         data = json.load(response)
         dataParse = (json.dumps(data, indent=4, sort_keys=True))
+
     else:
         print(f'Error {response.status_code}: {response.text}')
     return dataParse
 
 def saveFile(dataParse):
+    formatData = ""
+    for entry in dataParse:
+        formatData += "\n" + entry + "\n"
     with open("info.txt", "w") as file:
         file.write(dataParse)
     file.close()
-    print(dataParse)
+    print(formatData)
 
 opener = getInfo()
 getResponse(opener)

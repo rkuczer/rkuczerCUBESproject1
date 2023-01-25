@@ -1,23 +1,30 @@
 {
-    "Forms": [
+    "Entries": [
         {
-            "Array": null,
-            "DateCreated": "2023-01-19 14:28:32",
-            "DateUpdated": "2023-01-19 18:31:36",
-            "Description": "unded by the BSU Innovation Grant, the focus of Collaborative University Business Experiences (CUBEs) is to bring together a team of faculty members to reinforce BSU students\u2019 career readiness through real-world projects with organizations.\n\nThe purpose of this form is for organizations who may be looking to collaborate, to let us know what collaborative opportunities are of interest. If you have a need for your business, we can help pair you with a faculty member who can implement a project in their course to help your organization and give students hands-on experience.\n\nIf you are interested in other collaborative opportunities you can let us know that as well.\n\nWant to know more about CUBEs?\nhttps://www.youtube.com/watch?v=Q84gcJwDq5I&t=75s\n\nYou can find previous examples https://bridgew.az1.qualtrics.com/CP/File.php?F=F_eJ3QCgbjplZl0j3\n\nPlease submit one form for each proposal and feel free to forward this link to the other divisional leaders in your organization who might be interested in this type of collaborative project. https://bsuform3.wufoo.com/forms/cubes-project-proposal-submission/\n\nIf you have questions or comments, please contact the CUBEs Team:\n\nDr. Stephanie Jacobsen\nAssociate Professor\nManagement & Marketing Department\nsjacobsen@bridgew.edu\n\nDr. Xiangrong Liu\nProfessor\nManagement & Marketing Department\nxliu@bridgew.edu\n\nMr. John Paganelli\nDirector of Career Services\njpaganelli@bridgew.edu\n\nDr. Yihong Xiao\nAssistant Professor\nAccounting & Finance Department\nyxiao@bridgew.edu",
-            "Email": "",
-            "EndDate": "2030-01-01 12:00:00",
-            "EntryLimit": "0",
-            "Hash": "zqleboe1115c3h",
-            "IsPublic": "1",
-            "Language": "english",
-            "LinkEntries": "https://rkuczer.wufoo.com/api/v3/forms/zqleboe1115c3h/entries.json",
-            "LinkEntriesCount": "https://rkuczer.wufoo.com/api/v3/forms/zqleboe1115c3h/entries/count.json",
-            "LinkFields": "https://rkuczer.wufoo.com/api/v3/forms/zqleboe1115c3h/fields.json",
-            "Name": "CUBES Project Proposal Submission",
-            "RedirectMessage": "Great! Thanks for filling out my form!",
-            "StartDate": "2000-01-01 12:00:00",
-            "Url": "cubes-project-proposal-submission"
+            "CreatedBy": "public",
+            "DateCreated": "2023-01-19 21:32:01",
+            "DateUpdated": "",
+            "EntryId": "1",
+            "Field1": "James ",
+            "Field10": "5085555555",
+            "Field12": "394356",
+            "Field123": "",
+            "Field124": "",
+            "Field125": "",
+            "Field126": " Job Shadow",
+            "Field127": "",
+            "Field128": "",
+            "Field2": "Pellerin",
+            "Field223": "Summer 2022 (June 2022- August 2022)",
+            "Field224": "",
+            "Field225": "",
+            "Field226": "",
+            "Field227": "",
+            "Field423": "Yes",
+            "Field426": "Cyber Analyst",
+            "Field428": "MITRE",
+            "Field430": "mitre.com",
+            "UpdatedBy": null
         }
     ]
 }
