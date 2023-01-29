@@ -2,12 +2,14 @@ from secrets import username
 import requests, json, urllib3
 import urllib.request
 
-url = 'https://rkuczer.wufoo.com/api/v3/'
+subdomain= 'rkuczer'
+url = (f'https://{subdomain}.wufoo.com/api/v3/')
+formHash= 'zqleboe1115c3h'
 def getInfo():
-    password = 'zqleboe1115c3h'
+    formHash = 'zqleboe1115c3h'
     global url
     password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
-    password_mgr.add_password(None, url, username, password)
+    password_mgr.add_password(None, url, username, formHash)
     auth_handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
     opener = urllib.request.build_opener(auth_handler)
     return opener
@@ -15,7 +17,7 @@ def getInfo():
 def getResponse(opener):
     global url
     #url = 'https://rkuczer.wufoo.com/api/v3/'
-    response = opener.open(url + 'forms/zqleboe1115c3h/entries.json')
+    response = opener.open(url + (f'forms/{formHash}/entries.json'))
     if response.status == 200:
         data = json.load(response)
         dataParse = (json.dumps(data, indent=4, sort_keys=True))
