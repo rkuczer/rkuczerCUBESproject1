@@ -2,9 +2,11 @@ from secrets import apiKey
 import json
 import urllib.request
 
-subdomain='rkuczer'
-url =(f'https://{subdomain}.wufoo.com/api/v3/')
-formHash='zqleboe1115c3h'
+subdomain= 'rkuczer'
+url = (f'https://{subdomain}.wufoo.com/api/v3/')
+formHash= 'zqleboe1115c3h'
+
+
 def getInfo():
     formHash = 'zqleboe1115c3h'
     global url
@@ -13,6 +15,7 @@ def getInfo():
     auth_handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
     opener = urllib.request.build_opener(auth_handler)
     return opener
+
 
 def getResponse(opener):
     global url
@@ -25,6 +28,7 @@ def getResponse(opener):
         exit()
     print(dataParse)
     return dataParse
+
 
 def saveFile(dataParse):
     formatData = ""
