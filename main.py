@@ -1,4 +1,4 @@
-from secrets import username
+from secrets import apiKey
 import requests, json, urllib3
 import urllib.request
 
@@ -9,14 +9,13 @@ def getInfo():
     formHash = 'zqleboe1115c3h'
     global url
     password_mgr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
-    password_mgr.add_password(None, url, username, formHash)
+    password_mgr.add_password(None, url, apiKey, formHash)
     auth_handler = urllib.request.HTTPBasicAuthHandler(password_mgr)
     opener = urllib.request.build_opener(auth_handler)
     return opener
 
 def getResponse(opener):
     global url
-    #url = 'https://rkuczer.wufoo.com/api/v3/'
     response = opener.open(url + (f'forms/{formHash}/entries.json'))
     if response.status == 200:
         data = json.load(response)
@@ -24,6 +23,7 @@ def getResponse(opener):
     else:
         print(f'Error {response.status_code}: {response.text}')
         exit()
+    print(dataParse)
     return dataParse
 
 def saveFile(dataParse):
@@ -33,9 +33,8 @@ def saveFile(dataParse):
     with open("info.txt", "w") as file:
         file.write(dataParse)
     file.close()
-    print(formatData)
+    #print(formatData)
 
 opener = getInfo()
-getResponse(opener)
 dataParse = getResponse(opener)
 saveFile(dataParse)
