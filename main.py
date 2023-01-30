@@ -19,7 +19,7 @@ def getResponse(opener):
     response = opener.open(url + (f'forms/{formHash}/entries.json'))
     if response.status == 200:
         data = json.load(response)
-        dataParse = (json.dumps(data, indent=4, sort_keys=True))
+        dataParse = (json.dumps(data, indent=4, separators=('', ':')))
     else:
         print(f'Error {response.status_code}: {response.text}')
         exit()
