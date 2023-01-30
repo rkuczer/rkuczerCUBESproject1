@@ -1,10 +1,10 @@
 from secrets import apiKey
-import requests, json, urllib3
+import json
 import urllib.request
 
-subdomain= 'rkuczer'
-url = (f'https://{subdomain}.wufoo.com/api/v3/')
-formHash= 'zqleboe1115c3h'
+subdomain='rkuczer'
+url =(f'https://{subdomain}.wufoo.com/api/v3/')
+formHash='zqleboe1115c3h'
 def getInfo():
     formHash = 'zqleboe1115c3h'
     global url
