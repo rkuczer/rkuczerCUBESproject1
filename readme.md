@@ -2,7 +2,7 @@ Ryan Kuczer
 COMP 490
 Imports: urllib3, json, requests.
 
-An API key, subdomain and form hash are needed in the main.py file, the api key is not committed to the project on github.
+An API key is to be imported, a subdomain and form hash variables are needed to be changed to your own form's in the main.py file, the api key is not committed to the project on github.
 
 The project gets info from my wufoo form and saves it to a text file.
 
