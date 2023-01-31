@@ -2,9 +2,9 @@ from secrets import apiKey
 import json
 import urllib.request
 
-subdomain= 'rkuczer'
+subdomain = 'rkuczer'
 url = (f'https://{subdomain}.wufoo.com/api/v3/')
-formHash= 'zqleboe1115c3h'
+formHash = 'zqleboe1115c3h'
 
 
 def getInfo():
@@ -37,8 +37,12 @@ def saveFile(dataParse):
     with open("info.txt", "w") as file:
         file.write(dataParse)
     file.close()
-    #print(formatData)
+
 
 opener = getInfo()
+
+
 dataParse = getResponse(opener)
+
+
 saveFile(dataParse)
