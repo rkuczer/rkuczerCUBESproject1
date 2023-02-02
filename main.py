@@ -57,23 +57,17 @@ def setup_db(cursor:sqlite3.Cursor):
     cursor.execute('''CREATE TABLE IF NOT EXISTS entries(
  EntryId INTEGER PRIMARY KEY, first_name TEXT NOT NULL, last_name TEXT NOT NULL,
  job_title TEXT NOT NULL, company_name TEXT NOT NULL, phone_num INTEGER NOT NULL, 
- school_id INTEGER NOT NULL, org_website TEXT NOT NULL, course_proj TEXT NOT NULL,
- guest_speaker TEXT NOT NULL, site_visit TEXT NOT NULL, job_shadow TEXT NOT NULL,
- carreer_panel TEXT NOT NULL, summer_2022 TEXT NOT NULL, fall_2022 TEXT NOT NULL,
- spring_2023 TEXT NOT NULL, summer_2023 TEXT NOT NULL, other TEXT NOT NULL,
- yes_no TEXT NOT NULL
- );''')
+ school_id INTEGER NOT NULL);''')
+
 
 def insert_db(cursor:sqlite3.Cursor, dataParse):
     for entry in dataParse:
         cursor.execute('''
-        INSERT INTO entries (EntryId, first_name, last_name, job_title, company_name, phone_num, school_id, org_website,
-       course_proj, guest_speaker, site_visit, job_shadow, carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, yes_no)
-       VALUES ()''',
-        entry["EntryId"], entry["Field1"], entry["Field2"], entry["Field426"], entry["Field428"], entry["Field10"],
-        entry["Field12"], entry["Field430"], entry["Field123"], entry["Field124"], entry["Field125"], entry["Field126"],
-        entry["Field127"], entry["Field128"], entry["Field223"], entry["Field224"], entry["Field225"], entry["Field226"],
-        entry["Field227"], entry["Field423"])
+        INSERT INTO entries (EntryId, first_name, last_name, job_title, company_name, phone_num, school_id)
+        VALUES (:entryId, :first_name, :last_name, :job_title, :company_name, :phone_num, :school_id, :org_website,
+        :course_proj, :guest_speaker, :site_visit, :job_shadow, :carreer_panel, :summer_2022, :fall_2022, :spring_2023, :summer_2023, :other, :yes_no)
+        ''', entry["EntryId"], entry["Field1"], entry["Field2"], entry["Field426"], entry["Field428"], entry["Field10"],
+        entry["Field12"])
 
 
 
