@@ -1,6 +1,6 @@
 Ryan Kuczer
 COMP 490
-Imports: urllib3, json, requests.
+Imports: From requests.auth import HTTPBasicAuth, import sys, and requests
 
 An API key is to be imported, a subdomain and form hash variables are needed to be changed to your own form's in the main.py file, the api key is not committed to the project on github.
 
