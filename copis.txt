@@ -1,0 +1,9 @@
+org_website TEXT NOT NULL, course_proj TEXT NOT NULL,
+ guest_speaker TEXT NOT NULL, site_visit TEXT NOT NULL, job_shadow TEXT NOT NULL,
+ carreer_panel TEXT NOT NULL, summer_2022 TEXT NOT NULL, fall_2022 TEXT NOT NULL,
+ spring_2023 TEXT NOT NULL, summer_2023 TEXT NOT NULL, other TEXT NOT NULL,
+ yes_no TEXT NOT NULL
+
+
+ org_website,
+       course_proj, guest_speaker, site_visit, job_shadow, carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, yes_no
