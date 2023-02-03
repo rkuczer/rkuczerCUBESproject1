@@ -9,7 +9,7 @@ from requests.auth import HTTPBasicAuth
 url = "https://rkuczer.wufoo.com/api/v3/forms/cubes-project-proposal-submission/entries/json"
 
 
-def insert_db(cursor:sqlite3.Cursor, data1):
+def insert_db(cursor: sqlite3.Cursor, data1):
     for key in data1:
         EntryId = key['EntryId']
         first_name = key['Field1']
@@ -36,7 +36,9 @@ def insert_db(cursor:sqlite3.Cursor, data1):
         updated_by = key['UpdatedBy']
         try:
             cursor.execute("INSERT INTO entries (EntryId, first_name, last_name, job_title, org_name, phone_num, "
-                           "school_id, org_site, course, speaker, siteVisit, job_shadow, carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, permission, date_created, created_by, date_update, updated_by) "
+                           "school_id, org_site, course, speaker, siteVisit, job_shadow, carreer_panel, summer_2022, fall_2022, "
+                           "spring_2023, summer_2023, "
+                           "other, permission, date_created, created_by, date_update, updated_by) "
                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                            (EntryId, first_name, last_name, job_title, org_name, phone_num, school_id, org_site, course, speaker, siteVisit, job_shadow,
                             carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, permission, date_created, created_by, date_update, updated_by))
@@ -67,16 +69,16 @@ def main():
     close_db(conn)
 
 
-def save_data(data_to_save: list, save_file=None):
+def save_data(data_to_save: list, save_file = None):
 
     for entry in data_to_save:
         for key, value in entry.items():
-            print(f"{key}: {value}", file=save_file)
+            print(f"{key}: {value}", file = save_file)
         print("+++++++++++++++++++++++++++++++++++++++++++++\n_______________________________________________",
-              file=save_file)
+              file = save_file)
 
 
-def open_db(filename:str)->Tuple[sqlite3.Connection, sqlite3.Cursor]:
+def open_db(filename: str) -> Tuple[sqlite3.Connection, sqlite3.Cursor]:
 
     db_connection = sqlite3.connect(filename)
     cursor = db_connection.cursor()
@@ -102,23 +104,3 @@ def setup_db(cursor:sqlite3.Cursor):
 if __name__ == '__main__':
 
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
