@@ -2,16 +2,14 @@ import requests
 import sqlite3
 import sys
 from typing import Tuple
-from secrets import apiKey  # add a secrets file with wufoo_key='YoUr-WuFoo-KeY-Here'
+from secrets import apiKey
 from requests.auth import HTTPBasicAuth
 
-# adjust this to your URL
+
 url = "https://rkuczer.wufoo.com/api/v3/forms/cubes-project-proposal-submission/entries/json"
 
 
 def insert_db(cursor:sqlite3.Cursor, data1):
-    #keyEntry = json.dumps(data1)
-    #keyRow = json.loads(keyEntry)
     for key in data1:
         EntryId = key['EntryId']
         first_name = key['Field1']
@@ -37,11 +35,17 @@ def insert_db(cursor:sqlite3.Cursor, data1):
         date_update = key['DateUpdated']
         updated_by = key['UpdatedBy']
         try:
-            cursor.execute("INSERT INTO entries (EntryId, first_name, last_name, job_title, org_name, phone_num, school_id, org_site, course, speaker, siteVisit, job_shadow, carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, permission, date_created, created_by, date_update, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (EntryId, first_name, last_name, job_title, org_name, phone_num, school_id, org_site, course, speaker, siteVisit, job_shadow, carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, permission, date_created, created_by, date_update, updated_by))
+            cursor.execute("INSERT INTO entries (EntryId, first_name, last_name, job_title, org_name, phone_num, "
+                           "school_id, org_site, course, speaker, siteVisit, job_shadow, carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, permission, date_created, created_by, date_update, updated_by) "
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                           (EntryId, first_name, last_name, job_title, org_name, phone_num, school_id, org_site, course, speaker, siteVisit, job_shadow,
+                            carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, permission, date_created, created_by, date_update, updated_by))
         except sqlite3.IntegrityError:
             print(f"Form submission with entryID={EntryId} and submission_date={date_created} already exists, not adding this entry.")
 
+
 def get_wufoo_data() -> dict:
+
     response = requests.get(url, auth=HTTPBasicAuth(apiKey, 'pass'))
     if response.status_code != 200:
         print(f"Failed to get data, response code:{response.status_code} and error message: {response.reason} ")
@@ -51,6 +55,7 @@ def get_wufoo_data() -> dict:
 
 
 def main():
+
     data = get_wufoo_data()
     data1 = data['Entries']
     file_to_save = open("info.txt", 'w')
@@ -63,26 +68,29 @@ def main():
 
 
 def save_data(data_to_save: list, save_file=None):
+
     for entry in data_to_save:
         for key, value in entry.items():
             print(f"{key}: {value}", file=save_file)
-        # now print the spacer
         print("+++++++++++++++++++++++++++++++++++++++++++++\n_______________________________________________",
               file=save_file)
 
 
 def open_db(filename:str)->Tuple[sqlite3.Connection, sqlite3.Cursor]:
-    db_connection = sqlite3.connect(filename)#connect to existing DB or create new one
-    cursor = db_connection.cursor()#get ready to read/write data
+
+    db_connection = sqlite3.connect(filename)
+    cursor = db_connection.cursor()
     return db_connection, cursor
 
 
 def close_db(connection:sqlite3.Connection):
-    connection.commit()#make sure any changes get saved
+
+    connection.commit()
     connection.close()
 
 
 def setup_db(cursor:sqlite3.Cursor):
+
    cursor.execute('''CREATE TABLE IF NOT EXISTS entries(
  EntryId INTEGER UNIQUE NOT NULL, first_name TEXT NOT NULL, last_name TEXT NOT NULL,
  job_title TEXT NOT NULL, org_name TEXT NOT NULL, phone_num INTEGER NOT NULL,
@@ -92,6 +100,7 @@ def setup_db(cursor:sqlite3.Cursor):
 
 
 if __name__ == '__main__':
+
     main()
 
 
