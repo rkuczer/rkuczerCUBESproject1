@@ -1,5 +1,4 @@
-import requests, sqlite3
-import sys
+import requests, sqlite3, sys, json
 from typing import Tuple
 from secrets import apiKey  # add a secrets file with wufoo_key='YoUr-WuFoo-KeY-Here'
 from requests.auth import HTTPBasicAuth
@@ -8,11 +7,34 @@ from requests.auth import HTTPBasicAuth
 url = "https://rkuczer.wufoo.com/api/v3/forms/cubes-project-proposal-submission/entries/json"
 
 
-def insert_db(cursor:sqlite3.Cursor, data_to_save: list):
-#    for entry in data_to_save:
-    for key, value in data_to_save:
-        cursor.execute("INSERT INTO entries (EntryId, first_name, last_name, job_title, company_name, phone_num, school_id) VALUES (?, ?)", (value))
-
+def insert_db(cursor:sqlite3.Cursor, data1):
+    #keyEntry = json.dumps(data1)
+    #keyRow = json.loads(keyEntry)
+    for key in data1:
+        EntryId = key['EntryId']
+        first_name = key['Field1']
+        last_name = key['Field2']
+        job_title = key['Field426']
+        org_name = key['Field428']
+        phone_num = key['Field10']
+        school_id = key['Field12']
+        org_site = key['Field430']
+        course = key['Field123']
+        speaker = key['Field124']
+        siteVisit = key['Field125']
+        job_shadow = key['Field126']
+        carreer_panel = key['Field127']
+        summer_2022 = key['Field223']
+        fall_2022 = key['Field224']
+        spring_2023 = key['Field225']
+        summer_2023 = key['Field226']
+        other = key['Field227']
+        permission = key['Field423']
+        date_created = key['DateCreated']
+        created_by = key['CreatedBy']
+        date_update = key['DateUpdated']
+        updated_by = key['UpdatedBy']
+        cursor.execute("INSERT INTO entries (EntryId, first_name, last_name, job_title, org_name, phone_num, school_id, org_site, course, speaker, siteVisit, job_shadow, carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, permission, date_created, created_by, date_update, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (EntryId, first_name, last_name, job_title, org_name, phone_num, school_id, org_site, course, speaker, siteVisit, job_shadow, carreer_panel, summer_2022, fall_2022, spring_2023, summer_2023, other, permission, date_created, created_by, date_update, updated_by))
 
 
 def get_wufoo_data() -> dict:
@@ -27,7 +49,7 @@ def get_wufoo_data() -> dict:
 def main():
     data = get_wufoo_data()
     data1 = data['Entries']
-    print(data1)
+    #print(data1)
     file_to_save = open("info.txt", 'w')
     save_data(data1, save_file=file_to_save)
 
@@ -60,8 +82,10 @@ def close_db(connection:sqlite3.Connection):
 def setup_db(cursor:sqlite3.Cursor):
    cursor.execute('''CREATE TABLE IF NOT EXISTS entries(
  EntryId INTEGER NOT NULL, first_name TEXT NOT NULL, last_name TEXT NOT NULL,
- job_title TEXT NOT NULL, company_name TEXT NOT NULL, phone_num INTEGER NOT NULL,
- school_id INTEGER NOT NULL);''')
+ job_title TEXT NOT NULL, org_name TEXT NOT NULL, phone_num INTEGER NOT NULL,
+ school_id INTEGER NOT NULL, org_site TEXT, course TEXT, speaker TEXT, siteVisit TEXT, job_shadow TEXT, 
+ carreer_panel TEXT, summer_2022 TEXT, fall_2022 TEXT, spring_2023 TEXT, summer_2023 TEXT, other TEXT, permission TEXT, date_created TEXT,
+ created_by TEXT, date_update TEXT, updated_by TEXT);''')
 
 if __name__ == '__main__':
     main()
