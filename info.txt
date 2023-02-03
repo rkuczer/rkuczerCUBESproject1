@@ -48,3 +48,203 @@ DateUpdated:
 UpdatedBy: None
 +++++++++++++++++++++++++++++++++++++++++++++
 _______________________________________________
+EntryId: 3
+Field1: Dan 
+Field2: Pastor
+Field426: Sales Rep
+Field428: Bridgewater State
+Field10: 7772804444
+Field12: 10223
+Field430: www.google.com
+Field123: 
+Field124: 
+Field125: 
+Field126: 
+Field127: Career Panel
+Field223: 
+Field224: 
+Field225: 
+Field226: Summer 2023 (June 2023- August 2023)
+Field227: 
+Field423: Further discussion needed
+DateCreated: 2023-02-03 14:55:54
+CreatedBy: public
+DateUpdated: 
+UpdatedBy: None
++++++++++++++++++++++++++++++++++++++++++++++
+_______________________________________________
+EntryId: 4
+Field1: Brett
+Field2: Smith
+Field426: Painter
+Field428: Smith Co.
+Field10: 8009812002
+Field12: 392343
+Field430: www.smith.com
+Field123: Course Project
+Field124: 
+Field125: 
+Field126: 
+Field127: 
+Field223: 
+Field224: 
+Field225: 
+Field226: 
+Field227: Other
+Field423: No
+DateCreated: 2023-02-03 14:57:11
+CreatedBy: public
+DateUpdated: 
+UpdatedBy: None
++++++++++++++++++++++++++++++++++++++++++++++
+_______________________________________________
+EntryId: 5
+Field1: Cody
+Field2: Winchell
+Field426: Software Developer
+Field428: Draper Labs
+Field10: 9119119111
+Field12: 394352
+Field430: www.draper.com
+Field123: 
+Field124: 
+Field125: Site Visit
+Field126: 
+Field127: 
+Field223: 
+Field224: 
+Field225: Spring 2023 (January 2023- April 2023)
+Field226: 
+Field227: 
+Field423: No
+DateCreated: 2023-02-03 14:57:56
+CreatedBy: public
+DateUpdated: 
+UpdatedBy: None
++++++++++++++++++++++++++++++++++++++++++++++
+_______________________________________________
+EntryId: 6
+Field1: Greg
+Field2: peck
+Field426: Environmentalist
+Field428: OpenAI
+Field10: 6782838232
+Field12: 395634
+Field430: www.openAI.com
+Field123: 
+Field124: 
+Field125: 
+Field126:  Job Shadow
+Field127: 
+Field223: 
+Field224: 
+Field225: 
+Field226: Summer 2023 (June 2023- August 2023)
+Field227: 
+Field423: 
+DateCreated: 2023-02-03 14:58:34
+CreatedBy: public
+DateUpdated: 
+UpdatedBy: None
++++++++++++++++++++++++++++++++++++++++++++++
+_______________________________________________
+EntryId: 7
+Field1: Mark
+Field2: Friscia
+Field426: Sales Rep
+Field428: Roche Bros.
+Field10: 7745086789
+Field12: 398723
+Field430: www.roche.com
+Field123: 
+Field124: Guest Speaker
+Field125: 
+Field126: 
+Field127: 
+Field223: 
+Field224: 
+Field225: 
+Field226: Summer 2023 (June 2023- August 2023)
+Field227: Other
+Field423: 
+DateCreated: 2023-02-03 14:59:13
+CreatedBy: public
+DateUpdated: 
+UpdatedBy: None
++++++++++++++++++++++++++++++++++++++++++++++
+_______________________________________________
+EntryId: 8
+Field1: Hugh
+Field2: Mungus
+Field426: General
+Field428: Space Force
+Field10: 7742343534
+Field12: 3967234
+Field430: www.usa.com
+Field123: 
+Field124: 
+Field125: Site Visit
+Field126: 
+Field127: 
+Field223: 
+Field224: 
+Field225: 
+Field226: Summer 2023 (June 2023- August 2023)
+Field227: 
+Field423: 
+DateCreated: 2023-02-03 15:00:03
+CreatedBy: public
+DateUpdated: 
+UpdatedBy: None
++++++++++++++++++++++++++++++++++++++++++++++
+_______________________________________________
+EntryId: 9
+Field1: Log
+Field2: Man
+Field426: Logger
+Field428: Log Co.
+Field10: 5087738239
+Field12: 396723
+Field430: www.log.com
+Field123: Course Project
+Field124: 
+Field125: 
+Field126: 
+Field127: 
+Field223: 
+Field224: 
+Field225: Spring 2023 (January 2023- April 2023)
+Field226: 
+Field227: 
+Field423: 
+DateCreated: 2023-02-03 15:00:45
+CreatedBy: public
+DateUpdated: 
+UpdatedBy: None
++++++++++++++++++++++++++++++++++++++++++++++
+_______________________________________________
+EntryId: 10
+Field1: Ryan 
+Field2: Kuczer
+Field426: Cloud Engineer
+Field428: CyberArk
+Field10: 7745089675
+Field12: 392343
+Field430: rkuczer.cloud.com
+Field123: 
+Field124: Guest Speaker
+Field125: 
+Field126: 
+Field127: 
+Field223: 
+Field224: 
+Field225: Spring 2023 (January 2023- April 2023)
+Field226: 
+Field227: 
+Field423: 
+DateCreated: 2023-02-03 15:01:25
+CreatedBy: public
+DateUpdated: 
+UpdatedBy: None
++++++++++++++++++++++++++++++++++++++++++++++
+_______________________________________________

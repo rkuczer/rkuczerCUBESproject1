@@ -47,7 +47,6 @@ def insert_db(cursor: sqlite3.Cursor, data1):
 
 
 def get_wufoo_data() -> dict:
-
     response = requests.get(url, auth=HTTPBasicAuth(apiKey, 'pass'))
     if response.status_code != 200:
         print(f"Failed to get data, response code:{response.status_code} and error message: {response.reason} ")
@@ -57,7 +56,6 @@ def get_wufoo_data() -> dict:
 
 
 def main():
-
     data = get_wufoo_data()
     data1 = data['Entries']
     file_to_save = open("info.txt", 'w')
@@ -69,30 +67,26 @@ def main():
     close_db(conn)
 
 
-def save_data(data_to_save: list, save_file = None):
-
+def save_data(data_to_save: list, save_file=None):
     for entry in data_to_save:
         for key, value in entry.items():
-            print(f"{key}: {value}", file = save_file)
+            print(f"{key}: {value}", file=save_file)
         print("+++++++++++++++++++++++++++++++++++++++++++++\n_______________________________________________",
-              file = save_file)
+              file=save_file)
 
 
 def open_db(filename: str) -> Tuple[sqlite3.Connection, sqlite3.Cursor]:
-
     db_connection = sqlite3.connect(filename)
     cursor = db_connection.cursor()
     return db_connection, cursor
 
 
 def close_db(connection:sqlite3.Connection):
-
     connection.commit()
     connection.close()
 
 
 def setup_db(cursor:sqlite3.Cursor):
-
    cursor.execute('''CREATE TABLE IF NOT EXISTS entries(
  EntryId INTEGER UNIQUE NOT NULL, first_name TEXT NOT NULL, last_name TEXT NOT NULL,
  job_title TEXT NOT NULL, org_name TEXT NOT NULL, phone_num INTEGER NOT NULL,
@@ -102,5 +96,4 @@ def setup_db(cursor:sqlite3.Cursor):
 
 
 if __name__ == '__main__':
-
     main()
