@@ -9,9 +9,9 @@ url = "https://rkuczer.wufoo.com/api/v3/forms/cubes-project-proposal-submission/
 
 
 def insert_db(cursor:sqlite3.Cursor, data_to_save: list):
-    for entry in data_to_save:
-        for key, value in entry.items():
-            cursor.execute("INSERT INTO entries (key, value) VALUES (?, ?)", (key, value))
+#    for entry in data_to_save:
+    for key, value in data_to_save:
+        cursor.execute("INSERT INTO entries (EntryId, first_name, last_name, job_title, company_name, phone_num, school_id) VALUES (?, ?)", (value))
 
 
 
