@@ -1,4 +1,6 @@
-import requests, sqlite3, sys, json
+import requests
+import sqlite3
+import sys
 from typing import Tuple
 from secrets import apiKey  # add a secrets file with wufoo_key='YoUr-WuFoo-KeY-Here'
 from requests.auth import HTTPBasicAuth
