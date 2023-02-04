@@ -11,7 +11,7 @@ class MyTestCase(unittest.TestCase):
         return data1
 
     def setup_db(cursor: sqlite3.Cursor):
-        cursor.execute('''CREATE TABLE IF NOT EXISTS entries(
+        cursor.execute('''CREATE TABLE IF NOT EXISTS testEntries(
         EntryId INTEGER UNIQUE NOT NULL, first_name TEXT NOT NULL, last_name TEXT NOT NULL,
         job_title TEXT NOT NULL, org_name TEXT NOT NULL, phone_num INTEGER NOT NULL,
         school_id INTEGER NOT NULL, org_site TEXT, course TEXT, speaker TEXT, siteVisit TEXT,
@@ -32,11 +32,26 @@ class MyTestCase(unittest.TestCase):
         connection.close()
 
 
-    def test_db(self, data1):
+    def test_db(self):
         conn, cursor = open_db("test_db.sqlite")
+        #changed this to a dict
+        testEntry = [('EntryId', '1'), ('Field1', 'James '), ('Field2', 'Pellerin'), ('Field426', 'Cyber Analyst'), ('Field428', 'MITRE'),
+                     ('Field10', '5085555555'), ('Field12', '394356'), ('Field430', 'mitre.com'), ('Field123', ''), ('Field124', ''),
+                     ('Field125', ''), ('Field126', ' Job Shadow'), ('Field127', ''),
+                     ('Field223', 'Summer 2022 (June 2022- August 2022)'), ('Field224', ''), ('Field225', ''), ('Field226', ''),
+                     ('Field227', ''), ('Field423', 'Yes'), ('DateCreated', '2023-01-19 21:32:01'), ('CreatedBy', 'public'),
+                     ('DateUpdated', ''), ('UpdatedBy', None)]
+
+
         print(type(conn))
         setup_db(cursor)
-        insert_db(cursor, data1)
+
+        #insert_db(cursor, dictTest)
+
+        cursor.execute('SELECT * FROM testEntries WHERE EntryId=? AND first_name=?', ('1', 'James'))
+
+        result = cursor.fetchone()
+        self.assertEqual(result, ('1', 'James'))
         close_db(conn)
 
 
