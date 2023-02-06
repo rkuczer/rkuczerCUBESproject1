@@ -1,5 +1,5 @@
 from main import get_wufoo_data, open_db, setup_db, close_db, insert_db
-import requests
+
 
 def test_data_num():
     response = get_wufoo_data()
