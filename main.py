@@ -2,7 +2,7 @@ import requests
 import sqlite3
 import sys
 from typing import Tuple
-from secrets import API_KEY
+from secrets import wufoo_key
 from requests.auth import HTTPBasicAuth
 
 
@@ -51,7 +51,7 @@ def insert_db(cursor: sqlite3.Cursor, data1):
 
 
 def get_wufoo_data() -> dict:
-    response = requests.get(url, auth=HTTPBasicAuth(API_KEY, 'pass'))
+    response = requests.get(url, auth=HTTPBasicAuth(wufoo_key, 'pass'))
     if response.status_code != 200:
         print(f"Failed to get data, response code:{response.status_code} and error message: {response.reason} ")
         sys.exit(-1)
