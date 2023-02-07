@@ -9,7 +9,7 @@ def test_data_num():
 
 
 def test_db():
-    conn, cursor = open_db("test_db.sqlite")
+    conn, cursor = open_db("../test_db.sqlite")
 
     print(type(conn))
     response = get_wufoo_data()
