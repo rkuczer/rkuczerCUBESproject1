@@ -9,7 +9,7 @@ from requests.auth import HTTPBasicAuth
 url = "https://rkuczer.wufoo.com/api/v3/forms/cubes-project-proposal-submission/entries/json"
 
 
-def insert_db(cursor: sqlite3.Cursor, data1):
+def insert_db(cursor: sqlite3.Cursor, data1):  # comment to test workflow
     for key in data1:
         EntryId = key['EntryId']
         first_name = key['Field1']
