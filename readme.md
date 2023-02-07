@@ -1,7 +1,7 @@
 Ryan Kuczer
 COMP 490
 
-Imports: From requests.auth import HTTPBasicAuth, import sys, and requests
+Imports: From requests.auth import HTTPBasicAuth, import sys, and requests. In tests.py I import the functions from main.py.
 
 An API key is to be imported, a subdomain and form hash variables are needed to be changed to your own form's in the main.py file, the api key is not committed to the project on github.
 
