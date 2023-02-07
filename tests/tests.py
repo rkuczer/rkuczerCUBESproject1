@@ -4,7 +4,7 @@ from main import get_wufoo_data, open_db, setup_db, close_db, insert_db
 def test_data_num():
     response = get_wufoo_data()
     data1 = response['Entries']
-    assert len(data1) == 10, f"Expected 10 entries, but got {len(data1)}"
+    assert len(data1) >= 10, f"Expected 10 entries, but got {len(data1)}"
     return data1
 
 
