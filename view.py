@@ -5,7 +5,7 @@ import PySide6
 from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QTableWidget, QTableWidgetItem, \
     QComboBox, QVBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QTextEdit
-from PySide6.QtGui import QCloseEvent, Qt
+from PySide6.QtGui import QCloseEvent, Qt, QFont
 from main import get_wufoo_data
 from functools import partial
 
@@ -23,7 +23,27 @@ class MainWindow(QWidget):
         self.entry_list.setGeometry(20, 20, 300, 440)
 
         self.response_text = QTextEdit(self)
-        self.response_text.setGeometry(350, 20, 430, 440)
+        self.response_text.setGeometry(350, 200, 400, 200)
+        self.response_text.setReadOnly(True)
+
+        font = QFont()
+        font.setPointSize(20)
+
+
+        self.first_name = QLabel(self)
+        self.first_name.setGeometry(350, 0, 100, 50)
+        self.first_name.setText("First Name:")
+        self.first_name.setFont(font)
+
+        self.last_name = QLabel(self)
+        self.last_name.setGeometry(550, 0, 100, 50)
+        self.last_name.setText("Last Name:")
+        self.last_name.setFont(font)
+
+        self.org = QLabel(self)
+        self.org.setGeometry(350, 75, 110, 50)
+        self.org.setText("Organization:")
+        self.org.setFont(font)
 
         btn_quit = QPushButton('Force Quit', self)
         btn_quit.clicked.connect(QApplication.instance().quit)
