@@ -1,10 +1,11 @@
 import json
+import sqlite3
 import sys
 import PySide6
 from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QTableWidget, QTableWidgetItem, \
     QComboBox, QVBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QTextEdit
-from PySide6.QtGui import QCloseEvent
+from PySide6.QtGui import QCloseEvent, Qt
 from main import get_wufoo_data
 from functools import partial
 
@@ -29,18 +30,21 @@ class MainWindow(QWidget):
         btn_quit.resize(btn_quit.sizeHint())
         btn_quit.move(700, 470)
 
-        data = get_wufoo_data()
-        data1 = data['Entries']
+
+        conn = sqlite3.connect('demo_db.sqlite')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM entries")
+        data1 = cursor.fetchall()
 
         for entry in data1:
-            org_name = entry['Field428']
+            org_name = entry[4]
             entry_button = QPushButton(org_name, self)
-            entry_id = entry['EntryId']
+            entry_id = entry[0]
 
             button_text = org_name
 
             # Check if any of the fields 123-127 have a value, and add to button text if true
-            field_values = [entry['Field{}'.format(i)] for i in range(123, 128)]
+            field_values = [entry[i] for i in range(8, 12)]
             field_values = [value for value in field_values if value]  # Remove empty values
             if field_values:
                 field_values_str = ', '.join(field_values)
@@ -61,6 +65,7 @@ class MainWindow(QWidget):
 
     def on_entry_button_clicked(self, entry):
         self.response_text.setText(json.dumps(entry, indent=4))
+
 
     def closeEvent(self, event: QCloseEvent):
         reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
