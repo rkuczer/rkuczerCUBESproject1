@@ -45,6 +45,11 @@ class MainWindow(QWidget):
         self.org.setText("Organization:")
         self.org.setFont(font)
 
+        self.email = QLabel(self)
+        self.email.setGeometry(550, 75, 100, 50)
+        self.email.setText("Email:")
+        self.email.setFont(font)
+
         btn_quit = QPushButton('Force Quit', self)
         btn_quit.clicked.connect(QApplication.instance().quit)
         btn_quit.resize(btn_quit.sizeHint())
