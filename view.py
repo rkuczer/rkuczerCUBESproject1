@@ -34,19 +34,20 @@ class MainWindow(QWidget):
         self.first_name = QLabel(self)
         self.first_name.setGeometry(350, 0, 100, 50)
         self.first_name.setText("First Name:")
+        self.first_name.setWordWrap(True)
 
         self.last_name = QLabel(self)
         self.last_name.setGeometry(550, 0, 100, 50)
         self.last_name.setText("Last Name:")
-
+        self.last_name.setWordWrap(True)
         self.org = QLabel(self)
         self.org.setGeometry(350, 75, 110, 50)
         self.org.setText("Organization:")
-
-        self.email = QLabel(self)
-        self.email.setGeometry(550, 75, 100, 50)
-        self.email.setText("Email:")
-
+        self.org.setWordWrap(True)
+        self.title = QLabel(self)
+        self.title.setGeometry(550, 75, 100, 50)
+        self.title.setText("Title:")
+        self.title.setWordWrap(True)
 
         btn_quit = QPushButton('Force Quit', self)
         btn_quit.clicked.connect(QApplication.instance().quit)
@@ -84,17 +85,14 @@ class MainWindow(QWidget):
         self.show()
 
     def on_entry_button_clicked(self, entry):
-        self.response_text.setText(json.dumps(entry, indent=4))
-        
-        #self.cursor.execute('SELECT * FROM entries WHERE EntryId = ?', (entry,))
-        #entry1 = self.cursor.fetchone()
-
-        # Clear the response_text widget
-        #self.response_text.clear()
-
-        # Set the text of the row_label to the value in a specific row
-        #if entry1:
-        #    self.first_name.setText('First name: ' + entry1[1])
+        first_name = entry[1]
+        self.first_name.setText("First Name: {}".format(first_name))
+        last_name = entry[2]
+        self.last_name.setText("Last Name: {}".format(last_name))
+        org_name = entry[4]
+        self.org.setText("Organization: {}".format(org_name))
+        title = entry[3]
+        self.title.setText("Title: {}".format(title))
 
     def closeEvent(self, event: QCloseEvent):
         reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
