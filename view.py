@@ -13,6 +13,8 @@ from functools import partial
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
+        self.conn = sqlite3.connect('demo_db.sqlite')
+        self.cursor = self.conn.cursor()
         self.setup()
 
     def setup(self):
@@ -29,37 +31,30 @@ class MainWindow(QWidget):
         font = QFont()
         font.setPointSize(20)
 
-
         self.first_name = QLabel(self)
         self.first_name.setGeometry(350, 0, 100, 50)
         self.first_name.setText("First Name:")
-        self.first_name.setFont(font)
 
         self.last_name = QLabel(self)
         self.last_name.setGeometry(550, 0, 100, 50)
         self.last_name.setText("Last Name:")
-        self.last_name.setFont(font)
 
         self.org = QLabel(self)
         self.org.setGeometry(350, 75, 110, 50)
         self.org.setText("Organization:")
-        self.org.setFont(font)
 
         self.email = QLabel(self)
         self.email.setGeometry(550, 75, 100, 50)
         self.email.setText("Email:")
-        self.email.setFont(font)
+
 
         btn_quit = QPushButton('Force Quit', self)
         btn_quit.clicked.connect(QApplication.instance().quit)
         btn_quit.resize(btn_quit.sizeHint())
         btn_quit.move(700, 470)
 
-
-        conn = sqlite3.connect('demo_db.sqlite')
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM entries")
-        data1 = cursor.fetchall()
+        self.cursor.execute("SELECT * FROM entries")
+        data1 = self.cursor.fetchall()
 
         for entry in data1:
             org_name = entry[4]
@@ -79,18 +74,27 @@ class MainWindow(QWidget):
                     button_text += field_values_str
             entry_button.setText(button_text)
 
-            entry_button.clicked.connect(partial(self.on_entry_button_clicked, entry))
+
 
             item = QListWidgetItem(self.entry_list)
             item.setSizeHint(entry_button.sizeHint())
             self.entry_list.addItem(item)
             self.entry_list.setItemWidget(item, entry_button)
-
+            entry_button.clicked.connect(partial(self.on_entry_button_clicked, entry))
         self.show()
 
     def on_entry_button_clicked(self, entry):
         self.response_text.setText(json.dumps(entry, indent=4))
+        
+        #self.cursor.execute('SELECT * FROM entries WHERE EntryId = ?', (entry,))
+        #entry1 = self.cursor.fetchone()
 
+        # Clear the response_text widget
+        #self.response_text.clear()
+
+        # Set the text of the row_label to the value in a specific row
+        #if entry1:
+        #    self.first_name.setText('First name: ' + entry1[1])
 
     def closeEvent(self, event: QCloseEvent):
         reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
