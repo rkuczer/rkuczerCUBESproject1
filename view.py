@@ -4,7 +4,7 @@ import sys
 import PySide6
 from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QTableWidget, QTableWidgetItem, \
-    QComboBox, QVBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QTextEdit
+    QComboBox, QVBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QTextEdit, QCheckBox, QGroupBox
 from PySide6.QtGui import QCloseEvent, Qt, QFont
 from main import get_wufoo_data
 from functools import partial
@@ -24,12 +24,29 @@ class MainWindow(QWidget):
         self.entry_list = QListWidget(self)
         self.entry_list.setGeometry(20, 20, 300, 440)
 
-        self.response_text = QTextEdit(self)
-        self.response_text.setGeometry(350, 200, 400, 200)
-        self.response_text.setReadOnly(True)
+        self.checkBoxNames = ["Course Project", "Guest Speaker", "Site Visit", "Job Shadow", "Career Panel"]
+        self.x = 0
+        self.field_checkboxes = []
+        for i in range(8, 13):
+            checkbox = QCheckBox(self)
+            checkbox.setText(self.checkBoxNames[self.x])
+            checkbox.setChecked(False)
+            checkbox.setEnabled(False)  # Disable initially
+            self.field_checkboxes.append(checkbox)
+            self.x=self.x+1
 
-        font = QFont()
-        font.setPointSize(20)
+        checkbox_layout = QVBoxLayout()
+        for checkbox in self.field_checkboxes:
+            checkbox_layout.addWidget(checkbox)
+
+        self.field_group = QGroupBox(self)
+        self.field_group.setTitle("Collaborative Opportunities")
+        self.field_group.setLayout(checkbox_layout)
+        self.field_group.setGeometry(350, 130, 400, 150)
+
+        self.field_group2 = QGroupBox(self)
+        self.field_group2.setTitle("Collaborative Time Period")
+        self.field_group2.setGeometry(350, 300, 400, 150)
 
         self.first_name = QLabel(self)
         self.first_name.setGeometry(350, 0, 100, 50)
@@ -75,8 +92,6 @@ class MainWindow(QWidget):
                     button_text += field_values_str
             entry_button.setText(button_text)
 
-
-
             item = QListWidgetItem(self.entry_list)
             item.setSizeHint(entry_button.sizeHint())
             self.entry_list.addItem(item)
@@ -93,6 +108,18 @@ class MainWindow(QWidget):
         self.org.setText("Organization: {}".format(org_name))
         title = entry[3]
         self.title.setText("Title: {}".format(title))
+
+        for i in range(8, 13):
+            field_value = entry[i]
+            checkbox = self.field_checkboxes[i - 8]
+            if field_value:
+                checkbox.setChecked(True)
+                checkbox.setEnabled(True)
+            else:
+                checkbox.setChecked(False)
+                checkbox.setEnabled(False)
+
+
 
     def closeEvent(self, event: QCloseEvent):
         reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
