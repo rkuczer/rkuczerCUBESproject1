@@ -33,7 +33,7 @@ class MainWindow(QWidget):
             checkbox.setChecked(False)
             checkbox.setEnabled(False)  # Disable initially
             self.field_checkboxes.append(checkbox)
-            self.x=self.x+1
+            self.x = self.x + 1
 
         checkbox_layout = QVBoxLayout()
         for checkbox in self.field_checkboxes:
@@ -44,8 +44,25 @@ class MainWindow(QWidget):
         self.field_group.setLayout(checkbox_layout)
         self.field_group.setGeometry(350, 130, 400, 150)
 
+
+        self.checkBoxNames2 = ["Summer 2022", "Fall 2022", "Spring 2023", "Summer 2023", "Other"]
+        self.y = 0
+        self.field_checkboxes2 = []
+        for i in range(13, 18):
+            checkbox2 = QCheckBox(self)
+            checkbox2.setText(self.checkBoxNames2[self.y])
+            checkbox2.setChecked(False)
+            checkbox2.setEnabled(False)  # Disable initially
+            self.field_checkboxes2.append(checkbox2)
+            self.y = self.y + 1
+
+        checkbox_layout2 = QVBoxLayout()
+        for checkbox2 in self.field_checkboxes2:
+            checkbox_layout2.addWidget(checkbox2)
+
         self.field_group2 = QGroupBox(self)
         self.field_group2.setTitle("Collaborative Time Period")
+        self.field_group2.setLayout(checkbox_layout2)
         self.field_group2.setGeometry(350, 300, 400, 150)
 
         self.first_name = QLabel(self)
@@ -119,7 +136,15 @@ class MainWindow(QWidget):
                 checkbox.setChecked(False)
                 checkbox.setEnabled(False)
 
-
+        for i in range(13, 18):
+            field_value2 = entry[i]
+            checkbox2 = self.field_checkboxes2[i - 13]  # subtract 5 to get the correct index
+            if field_value2:
+                checkbox2.setChecked(True)
+                checkbox2.setEnabled(True)
+            else:
+                checkbox2.setChecked(False)
+                checkbox2.setEnabled(False)
 
     def closeEvent(self, event: QCloseEvent):
         reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
