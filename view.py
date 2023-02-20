@@ -40,8 +40,7 @@ class MainWindow(QWidget):
         self.field_group.setLayout(checkbox_layout)
         self.field_group.setGeometry(350, 130, 400, 150)
 
-
-        self.checkBoxNames2 = ["Summer 2022","Fall 2022","Spring 2023","Summer 2023","Other"]
+        self.checkBoxNames2 = ["Summer 2022", "Fall 2022", "Spring 2023", "Summer 2023", "Other"]
         self.y = 0
         self.field_checkboxes2 = []
         for i in range(13, 18):
@@ -162,11 +161,9 @@ class MainWindow(QWidget):
                 checkbox2.setChecked(False)
                 checkbox2.setEnabled(False)
 
-
-
     def closeEvent(self, event: QCloseEvent):
         reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
-        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             event.accept()
         else:
