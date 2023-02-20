@@ -81,6 +81,14 @@ def test_org_name_label(qtbot: QtBot):
     assert window.org.text() == f"Organization: {org_name}"
 
 
+def test_database_has_data():
+    conn = sqlite3.connect('demo_db.sqlite')
+    c = conn.cursor()
+    c.execute("SELECT COUNT(*) FROM entries")
+    num_records = c.fetchone()[0]
+    assert num_records >= 10
+
+
 def test_data_num():
     response = get_wufoo_data()
     data1 = response['Entries']
