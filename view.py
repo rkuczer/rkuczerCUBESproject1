@@ -1,8 +1,8 @@
 import sqlite3
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QTableWidget, QTableWidgetItem, \
-    QComboBox, QVBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QTextEdit, QCheckBox, QGroupBox
-from PySide6.QtGui import QCloseEvent, Qt, QFont
+from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, \
+    QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QCheckBox, QGroupBox
+from PySide6.QtGui import QCloseEvent
 from functools import partial
 
 
@@ -126,8 +126,6 @@ class MainWindow(QWidget):
             self.entry_list.setItemWidget(item, entry_button)
             entry_button.clicked.connect(partial(self.on_entry_button_clicked, entry))
 
-        self.show()
-
     def on_entry_button_clicked(self, entry):
         first_name = entry[1]
         self.first_name.setText("First Name: {}".format(first_name))
@@ -179,6 +177,7 @@ def run():
     app = QApplication(sys.argv)
     app.setStyle('Windows')
     ex = MainWindow()
+    ex.show()
     sys.exit(app.exec())
 
 
