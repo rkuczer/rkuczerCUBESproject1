@@ -1,12 +1,8 @@
-import json
 import sqlite3
 import sys
-import PySide6
-from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QTableWidget, QTableWidgetItem, \
     QComboBox, QVBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QTextEdit, QCheckBox, QGroupBox
 from PySide6.QtGui import QCloseEvent, Qt, QFont
-from main import get_wufoo_data
 from functools import partial
 
 
@@ -19,7 +15,7 @@ class MainWindow(QWidget):
 
     def setup(self):
         self.setWindowTitle("CUBES Project List")
-        self.setGeometry(100, 100, 800, 550)
+        self.setGeometry(100, 100, 800, 650)
 
         self.entry_list = QListWidget(self)
         self.entry_list.setGeometry(20, 20, 300, 440)
@@ -85,15 +81,25 @@ class MainWindow(QWidget):
         self.title.setText("Title:")
         self.title.setWordWrap(True)
 
+        self.phone_num = QLabel(self)
+        self.phone_num.setGeometry(350, 450, 150, 50)
+        self.phone_num.setText("Phone Number:")
+        self.phone_num.setWordWrap(True)
+
+        self.school_id = QLabel(self)
+        self.school_id.setGeometry(550, 450, 150, 50)
+        self.school_id.setText("School ID:")
+        self.school_id.setWordWrap(True)
+
         self.agreement = QLabel(self)
-        self.agreement.setGeometry(350, 450, 400, 50)
+        self.agreement.setGeometry(350, 500, 400, 50)
         self.agreement.setText("Does BSU have their Permission:")
         self.agreement.setWordWrap(True)
 
         btn_quit = QPushButton('Force Quit', self)
         btn_quit.clicked.connect(QApplication.instance().quit)
         btn_quit.resize(btn_quit.sizeHint())
-        btn_quit.move(700, 500)
+        btn_quit.move(700, 620)
 
         self.cursor.execute("SELECT * FROM entries")
         data1 = self.cursor.fetchall()
@@ -101,8 +107,6 @@ class MainWindow(QWidget):
         for entry in data1:
             org_name = entry[4]
             entry_button = QPushButton(org_name, self)
-            entry_id = entry[0]
-
             button_text = org_name
 
             # Check if any of the fields 123-127 have a value, and add to button text if true
@@ -122,20 +126,6 @@ class MainWindow(QWidget):
             self.entry_list.setItemWidget(item, entry_button)
             entry_button.clicked.connect(partial(self.on_entry_button_clicked, entry))
 
-        for entry in data1:
-            collab = entry[18]
-            entry_button1 = QPushButton(collab, self)
-            buttonText = collab
-            collabValue = [entry[18]]
-            collabValue = [value for value in collabValue if value]
-            if collabValue:
-                collabValue_str = ', '.join(collabValue)
-                if collab:
-                    buttonText += ', ' + collabValue_str
-                else:
-                    buttonText += collabValue_str
-            entry_button1.setText(buttonText)
-
         self.show()
 
     def on_entry_button_clicked(self, entry):
@@ -147,6 +137,12 @@ class MainWindow(QWidget):
         self.org.setText("Organization: {}".format(org_name))
         title = entry[3]
         self.title.setText("Title: {}".format(title))
+        phone_num = entry[5]
+        self.phone_num.setText("Phone Number: {}".format(phone_num))
+        school_id = entry[6]
+        self.school_id.setText("School ID: {}".format(school_id))
+        agreement = entry[18]
+        self.agreement.setText("Does BSU have their Permission: {}".format(agreement))
 
         for i in range(8, 13):
             field_value = entry[i]
@@ -168,8 +164,7 @@ class MainWindow(QWidget):
                 checkbox2.setChecked(False)
                 checkbox2.setEnabled(False)
 
-        agreement = entry[18]
-        self.agreement.setText("Does BSU have their Permission: {}".format(agreement))
+
 
     def closeEvent(self, event: QCloseEvent):
         reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
