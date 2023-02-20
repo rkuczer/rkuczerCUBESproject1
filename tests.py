@@ -1,5 +1,7 @@
 import sys
 import pytest
+from pytestqt.qtbot import QtBot
+
 from main import get_wufoo_data, open_db, setup_db, close_db, insert_db
 import sqlite3
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QTableWidget, QTableWidgetItem, \
@@ -8,40 +10,56 @@ from PySide6.QtGui import QCloseEvent, Qt, QFont
 from functools import partial
 from view import run, MainWindow
 
-conn, cursor = open_db("test_db.sqlite")
-print(type(conn))
 
+def test_first_name_label(qtbot: QtBot):
+    conn = sqlite3.connect('demo_db.sqlite')
+    c = conn.cursor()
+    c.execute('SELECT * FROM entries')
+    data = c.fetchone()
+    first_name = data[1]
 
-@pytest.fixture
-def app(qtbot):
-    test_app = QApplication([])
     window = MainWindow()
     qtbot.addWidget(window)
-    return test_app
+
+    entry_button = window.entry_list.itemWidget(window.entry_list.item(0))
+    qtbot.mouseClick(entry_button, Qt.LeftButton)
+
+    # Check if the first name label updates correctly
+    assert window.first_name.text() == f"First Name: {first_name}"
 
 
-def test_first_name_label(app, qtbot):
-    conn, cursor = open_db("test_db.sqlite")
-    cursor.execute("SELECT * FROM entries")
-    data1 = cursor.fetchall()
-    test_entry = (1, "James")
-    # find the "first_name" QLabel in the window
-    first_name_label = app.activeWindow().findChild(QLabel, "first_name")
-    # call the on_entry_button_clicked function with the test entry
-    app.activeWindow().on_entry_button_clicked(test_entry)
-    # check that the text of the "first_name" QLabel has been updated to "First Name: Alice"
-    assert first_name_label.text() == "First Name: James"
+def test_last_name_label(qtbot: QtBot):
+    conn = sqlite3.connect('demo_db.sqlite')
+    c = conn.cursor()
+    c.execute('SELECT * FROM entries')
+    data = c.fetchone()
+    last_name = data[2]
 
-    # Set up test data
-    #entry_id = 1
-    #expected_first_name = "James"
-    # Find the button and click it
-    #button = ex.findChild(QPushButton, f"button_{entry_id}")
-    #button.click()
+    window = MainWindow()
+    qtbot.addWidget(window)
 
-    # Find the first name label and check its text
-    #first_name_label = ex.findChild(QLabel, "first_name")
-    #assert first_name_label.text() == expected_first_name
+    entry_button = window.entry_list.itemWidget(window.entry_list.item(0))
+    qtbot.mouseClick(entry_button, Qt.LeftButton)
+
+    # Check if the first name label updates correctly
+    assert window.last_name.text() == f"Last Name: {last_name}"
+
+
+def test_org_name_label(qtbot: QtBot):
+    conn = sqlite3.connect('demo_db.sqlite')
+    c = conn.cursor()
+    c.execute('SELECT * FROM entries')
+    data = c.fetchone()
+    org_name = data[4]
+
+    window = MainWindow()
+    qtbot.addWidget(window)
+
+    entry_button = window.entry_list.itemWidget(window.entry_list.item(0))
+    qtbot.mouseClick(entry_button, Qt.LeftButton)
+
+    # Check if the first name label updates correctly
+    assert window.org.text() == f"Organization: {org_name}"
 
 
 def test_data_num():
