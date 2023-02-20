@@ -19,7 +19,7 @@ class MainWindow(QWidget):
 
     def setup(self):
         self.setWindowTitle("CUBES Project List")
-        self.setGeometry(100, 100, 800, 500)
+        self.setGeometry(100, 100, 800, 550)
 
         self.entry_list = QListWidget(self)
         self.entry_list.setGeometry(20, 20, 300, 440)
@@ -66,27 +66,34 @@ class MainWindow(QWidget):
         self.field_group2.setGeometry(350, 300, 400, 150)
 
         self.first_name = QLabel(self)
-        self.first_name.setGeometry(350, 0, 100, 50)
+        self.first_name.setGeometry(350, 0, 150, 50)
         self.first_name.setText("First Name:")
         self.first_name.setWordWrap(True)
 
         self.last_name = QLabel(self)
-        self.last_name.setGeometry(550, 0, 100, 50)
+        self.last_name.setGeometry(550, 0, 150, 50)
         self.last_name.setText("Last Name:")
         self.last_name.setWordWrap(True)
+
         self.org = QLabel(self)
-        self.org.setGeometry(350, 75, 110, 50)
+        self.org.setGeometry(350, 75, 150, 50)
         self.org.setText("Organization:")
         self.org.setWordWrap(True)
+
         self.title = QLabel(self)
-        self.title.setGeometry(550, 75, 100, 50)
+        self.title.setGeometry(550, 75, 150, 50)
         self.title.setText("Title:")
         self.title.setWordWrap(True)
+
+        self.agreement = QLabel(self)
+        self.agreement.setGeometry(350, 450, 400, 50)
+        self.agreement.setText("Does BSU have their Permission:")
+        self.agreement.setWordWrap(True)
 
         btn_quit = QPushButton('Force Quit', self)
         btn_quit.clicked.connect(QApplication.instance().quit)
         btn_quit.resize(btn_quit.sizeHint())
-        btn_quit.move(700, 470)
+        btn_quit.move(700, 500)
 
         self.cursor.execute("SELECT * FROM entries")
         data1 = self.cursor.fetchall()
@@ -114,6 +121,21 @@ class MainWindow(QWidget):
             self.entry_list.addItem(item)
             self.entry_list.setItemWidget(item, entry_button)
             entry_button.clicked.connect(partial(self.on_entry_button_clicked, entry))
+
+        for entry in data1:
+            collab = entry[18]
+            entry_button1 = QPushButton(collab, self)
+            buttonText = collab
+            collabValue = [entry[18]]
+            collabValue = [value for value in collabValue if value]
+            if collabValue:
+                collabValue_str = ', '.join(collabValue)
+                if collab:
+                    buttonText += ', ' + collabValue_str
+                else:
+                    buttonText += collabValue_str
+            entry_button1.setText(buttonText)
+
         self.show()
 
     def on_entry_button_clicked(self, entry):
@@ -146,6 +168,9 @@ class MainWindow(QWidget):
                 checkbox2.setChecked(False)
                 checkbox2.setEnabled(False)
 
+        agreement = entry[18]
+        self.agreement.setText("Does BSU have their Permission: {}".format(agreement))
+
     def closeEvent(self, event: QCloseEvent):
         reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
@@ -157,6 +182,7 @@ class MainWindow(QWidget):
 
 def run():
     app = QApplication(sys.argv)
+    app.setStyle('Windows')
     ex = MainWindow()
     sys.exit(app.exec())
 
