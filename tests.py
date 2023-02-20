@@ -1,14 +1,8 @@
-import sys
-import pytest
 from pytestqt.qtbot import QtBot
-
 from main import get_wufoo_data, open_db, setup_db, close_db, insert_db
 import sqlite3
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QTableWidget, QTableWidgetItem, \
-    QComboBox, QVBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem, QTextEdit, QCheckBox, QGroupBox
-from PySide6.QtGui import QCloseEvent, Qt, QFont
-from functools import partial
-from view import run, MainWindow
+from PySide6.QtGui import Qt
+from view import MainWindow
 
 
 def test_checkBoxes(qtbot: QtBot):
