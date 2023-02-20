@@ -11,9 +11,15 @@ The second checks the database and table creation functions in main.py as well a
 the database, currently the test function only works if there are multiple entries being entered into the database but still correctly
 checks for a test entry.
 
+After receiving the data from the wufoo response the program now creates a GUI window where the user can view data for the following entries.
+There is a buttot that creates a button for each entry and once selected the user can view all the entry's info for the user.
+It includes names, their collaboration level, etc. in the form of QLabel's, QCheckBoxes, QvBoxLayouts, etc.
+There are also 4 tests that check the functionality of the QLabel's presenting the correct info, the QCheckboxes
+and test if there is entries in the database as well.
+
 Currently, the database layout is a single table named 'entries' with each field in the json response as its own column. 
 
-Currently, no missing components are in Sprint 1 Project 2.
+Currently, no missing components are in Sprint 1 Project 3.
 
 Wufoo form location: https://rkuczer.wufoo.com/forms/zqleboe1115c3h/
 
