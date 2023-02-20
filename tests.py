@@ -11,6 +11,25 @@ from functools import partial
 from view import run, MainWindow
 
 
+def test_checkBoxes(qtbot: QtBot):
+    window = MainWindow()
+    qtbot.addWidget(window)
+
+    conn = sqlite3.connect('demo_db.sqlite')
+    c = conn.cursor()
+
+    c.execute('SELECT * FROM entries')
+    entry = c.fetchone()
+
+    entry_button = window.entry_list.itemWidget(window.entry_list.item(0))
+    qtbot.mouseClick(entry_button, Qt.LeftButton)
+
+    expected_values = [bool(entry[8]), bool(entry[9]), bool(entry[10]), bool(entry[11]), bool(entry[12])]
+    actual_values = [checkbox.isChecked() for checkbox in window.field_checkboxes]
+
+    assert expected_values == actual_values
+
+
 def test_first_name_label(qtbot: QtBot):
     conn = sqlite3.connect('demo_db.sqlite')
     c = conn.cursor()
