@@ -35,9 +35,6 @@ jobs:
         pip install flake8 pytest
         pip install pytest-qt
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Install PySide6 and PyQt6
-      run: |
-        pip install PySide6 PyQt6
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
