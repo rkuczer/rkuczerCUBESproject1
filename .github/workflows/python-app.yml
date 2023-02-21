@@ -34,6 +34,8 @@ jobs:
         pip install requests
         pip install flake8 pytest
         pip install pytest-qt
+        pip install Pyside6
+        pip install PyQt6
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
