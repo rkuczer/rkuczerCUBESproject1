@@ -71,7 +71,7 @@ class MainWindow(QWidget):
         self.last_name.setWordWrap(True)
 
         self.org = QLabel(self)
-        self.org.setGeometry(350, 75, 150, 50)
+        self.org.setGeometry(350, 75, 200, 50)
         self.org.setText("Organization:")
         self.org.setWordWrap(True)
 
