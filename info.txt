@@ -52,7 +52,7 @@ EntryId: 3
 Field1: Dan 
 Field2: Pastor
 Field426: Sales Rep
-Field428: Bridgewater State
+Field428: BSU
 Field10: 7772804444
 Field12: 10223
 Field430: www.google.com
@@ -69,8 +69,8 @@ Field227:
 Field423: Further discussion needed
 DateCreated: 2023-02-03 14:55:54
 CreatedBy: public
-DateUpdated: 
-UpdatedBy: None
+DateUpdated: 2023-02-21 12:33:45
+UpdatedBy: rkuczer
 +++++++++++++++++++++++++++++++++++++++++++++
 _______________________________________________
 EntryId: 4

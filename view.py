@@ -18,7 +18,7 @@ class MainWindow(QWidget):
         self.setGeometry(100, 100, 800, 650)
 
         self.entry_list = QListWidget(self)
-        self.entry_list.setGeometry(20, 20, 300, 440)
+        self.entry_list.setGeometry(10, 20, 320, 440)
 
         self.checkBoxNames = ["Course Project", "Guest Speaker", "Site Visit", "Job Shadow", "Career Panel"]
         self.x = 0
@@ -81,7 +81,7 @@ class MainWindow(QWidget):
         self.title.setWordWrap(True)
 
         self.phone_num = QLabel(self)
-        self.phone_num.setGeometry(350, 450, 150, 50)
+        self.phone_num.setGeometry(350, 450, 200, 50)
         self.phone_num.setText("Phone Number:")
         self.phone_num.setWordWrap(True)
 
@@ -109,12 +109,12 @@ class MainWindow(QWidget):
             button_text = org_name
 
             # Check if any of the fields 123-127 have a value, and add to button text if true
-            field_values = [entry[i] for i in range(8, 12)]
+            field_values = [entry[i] for i in range(8, 13)]
             field_values = [value for value in field_values if value]  # Remove empty values
             if field_values:
-                field_values_str = ', '.join(field_values)
+                field_values_str = ': '.join(field_values)
                 if org_name:
-                    button_text += ', ' + field_values_str
+                    button_text += ': ' + field_values_str
                 else:
                     button_text += field_values_str
             entry_button.setText(button_text)
