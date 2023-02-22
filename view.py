@@ -95,10 +95,10 @@ class MainWindow(QWidget):
         self.agreement.setText("Does BSU have their Permission:")
         self.agreement.setWordWrap(True)
 
-        btn_quit = QPushButton('Force Quit', self)
-        btn_quit.clicked.connect(QApplication.instance().quit)
-        btn_quit.resize(btn_quit.sizeHint())
-        btn_quit.move(700, 620)
+        #btn_quit = QPushButton('Force Quit', self)
+        #btn_quit.clicked.connect(QApplication.instance().quit)
+        #btn_quit.resize(btn_quit.sizeHint())
+        #btn_quit.move(700, 620)
 
         self.cursor.execute("SELECT * FROM entries")
         data1 = self.cursor.fetchall()
@@ -161,13 +161,13 @@ class MainWindow(QWidget):
                 checkbox2.setChecked(False)
                 checkbox2.setEnabled(False)
 
-    def closeEvent(self, event: QCloseEvent):
-        reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
+    #def closeEvent(self, event: QCloseEvent):
+    #    reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit?',
+    #                                 QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+    #   if reply == QMessageBox.Yes:
+    #        event.accept()
+    #    else:
+    #       event.ignore()
 
 
 def run():
