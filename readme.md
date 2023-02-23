@@ -1,9 +1,11 @@
 Ryan Kuczer
 COMP 490
 
-Imports: From requests.auth import HTTPBasicAuth, import sys, and requests. In tests.py I import the functions from main.py.
+Imports: From requests.auth import HTTPBasicAuth, import sys, import requests, from typing import Tuple. In tests.py I import the functions from main.py and from pytestqt.qtbot import QtBot. In view.py I import from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QCheckBox, QGroupBox and from functools import partial.
 
 An API key is to be imported, a subdomain and form hash variables are needed to be changed to your own form's in the main.py file, the api key is not committed to the project on github.
+
+TO RUN: Run view.py.
 
 The project gets info from my wufoo form and saves it to a sqllite table that is a part of a database.
 There is two tests implemented the first checks if the correct number of data entries are returned from the wufoo api.
