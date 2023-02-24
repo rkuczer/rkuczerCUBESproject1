@@ -3,6 +3,48 @@ import sys
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, \
     QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QCheckBox, QGroupBox
 from functools import partial
+from main import get_wufoo_data, insert_db, close_db
+
+
+class FirstWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.conn = sqlite3.connect('demo_db.sqlite')
+        self.cursor = self.conn.cursor()
+        self.setup()
+
+    def setup(self):
+        self.setWindowTitle("CUBES Project Main Window")
+        self.setGeometry(100, 100, 300, 300)
+
+        chooseDataVis = QPushButton("Data Visualization", self)
+        chooseDataVis.setGeometry(0, 0, 150, 300)
+        chooseDataVis.clicked.connect(self.dataVis_clicked)
+        chooseDataVis.clicked.connect(self.close)
+
+        chooseAlterData = QPushButton("Update Database", self)
+        chooseAlterData.setGeometry(150, 0, 150, 300)
+        chooseAlterData.clicked.connect(self.updateDataBase)
+
+    def updateDataBase(self):
+        apiResponse = get_wufoo_data()
+        wufooData = apiResponse['Entries']
+
+        self.conn = sqlite3.connect('demo_db.sqlite')
+        self.cursor = self.conn.cursor()
+        self.cursor.execute("SELECT COUNT(*) FROM entries")
+        tableRows = self.cursor.fetchone()[0]
+
+        if tableRows < len(wufooData):
+            insert_db(self.cursor, wufooData)
+            print("New Entries detected and inserted.")
+        else:
+            print("No new entries detected.")
+        close_db(self.conn)
+
+
+    def dataVis_clicked(self):
+        ex = MainWindow()
 
 
 class MainWindow(QWidget):
@@ -11,6 +53,7 @@ class MainWindow(QWidget):
         self.conn = sqlite3.connect('demo_db.sqlite')
         self.cursor = self.conn.cursor()
         self.setup()
+        self.show()
 
     def setup(self):
         self.setWindowTitle("CUBES Project List")
@@ -159,8 +202,8 @@ class MainWindow(QWidget):
 def run():
     app = QApplication(sys.argv)
     app.setStyle('Windows')
-    ex = MainWindow()
-    ex.show()
+    firstWin = FirstWindow()
+    firstWin.show()
     sys.exit(app.exec())
 
 
