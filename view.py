@@ -42,9 +42,9 @@ class FirstWindow(QWidget):
             print("No new entries detected.")
         close_db(self.conn)
 
-
     def dataVis_clicked(self):
         ex = MainWindow()
+        ex.show()
 
 
 class MainWindow(QWidget):
@@ -53,7 +53,6 @@ class MainWindow(QWidget):
         self.conn = sqlite3.connect('demo_db.sqlite')
         self.cursor = self.conn.cursor()
         self.setup()
-        self.show()
 
     def setup(self):
         self.setWindowTitle("CUBES Project List")
