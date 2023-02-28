@@ -6,6 +6,7 @@ from secrets import wufoo_key
 from requests.auth import HTTPBasicAuth
 
 
+
 url = "https://rkuczer.wufoo.com/api/v3/forms/cubes-project-proposal-submission/entries/json"
 
 
@@ -101,18 +102,11 @@ permission TEXT, date_created TEXT,
 created_by TEXT, date_update TEXT, updated_by TEXT);''')
     cursor.execute('''CREATE TABLE IF NOT EXISTS records(
     first_name TEXT NOT NULL, last_name TEXT NOT NULL,
-    job_title TEXT NOT NULL, bsu_email TEXT NOT NULL, department TEXT NOT NULL);''')
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS records(
-            EntryId INTEGER NOT NULL,
-            record_type TEXT NOT NULL,
-            record_date TEXT NOT NULL,
-            record_description TEXT NOT NULL,
-            FOREIGN KEY(EntryId) REFERENCES entries(EntryId)
-        );
-    ''')
+    job_title TEXT NOT NULL, bsu_email TEXT NOT NULL PRIMARY KEY, department TEXT NOT NULL);''')
+
 
 
 
 if __name__ == '__main__':
     main()
+

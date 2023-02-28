@@ -1,7 +1,8 @@
 import sqlite3
 import sys
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, \
-    QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QCheckBox, QGroupBox
+    QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QCheckBox, QGroupBox, QDialog, QFormLayout, QLineEdit, \
+    QMessageBox
 from functools import partial
 from main import get_wufoo_data, insert_db, close_db
 
@@ -15,16 +16,21 @@ class FirstWindow(QWidget):
 
     def setup(self):
         self.setWindowTitle("CUBES Project Main Window")
-        self.setGeometry(100, 100, 300, 300)
+        self.setGeometry(100, 100, 300, 400)
 
         chooseDataVis = QPushButton("Data Visualization", self)
-        chooseDataVis.setGeometry(0, 0, 150, 300)
+        chooseDataVis.setGeometry(0, 0, 150, 200)
         chooseDataVis.clicked.connect(self.dataVis_clicked)
         chooseDataVis.clicked.connect(self.close)
 
         chooseAlterData = QPushButton("Update Database", self)
-        chooseAlterData.setGeometry(150, 0, 150, 300)
+        chooseAlterData.setGeometry(150, 0, 150, 200)
         chooseAlterData.clicked.connect(self.updateDataBase)
+
+        chooseSelf = QPushButton("Add Self-Record", self)
+        chooseSelf.setGeometry(0, 200, 150, 200)
+        chooseSelf.clicked.connect(self.selfRec_clicked)
+
 
     def updateDataBase(self):
         apiResponse = get_wufoo_data()
@@ -45,6 +51,10 @@ class FirstWindow(QWidget):
     def dataVis_clicked(self):
         ex = MainWindow()
         ex.show()
+
+    def selfRec_clicked(self):
+        dialog = AddEntryDialog(self)
+        dialog.exec_()
 
 
 class MainWindow(QWidget):
@@ -165,6 +175,16 @@ class MainWindow(QWidget):
             self.entry_list.setItemWidget(item, entry_button)
             entry_button.clicked.connect(partial(self.on_entry_button_clicked, entry))
 
+        self.claimButton.clicked.connect(self.claimProject)
+
+    def claimProject(self):
+        selectedItem = self.entry_list.currentItem()
+        if selectedItem is None:
+            print("No button selected")
+
+        selectedProject = self.entry_list.itemWidget(selectedItem)
+        selectedProject.setStyleSheet("background-color: yellow")
+
     def on_entry_button_clicked(self, entry):
         first_name = entry[1]
         self.first_name.setText("First Name: {}".format(first_name))
@@ -201,7 +221,51 @@ class MainWindow(QWidget):
                 checkbox2.setChecked(False)
                 checkbox2.setEnabled(False)
 
+class AddEntryDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Add Entry")
+        self.layout = QFormLayout(self)
 
+        self.first_name_edit = QLineEdit(self)
+        self.layout.addRow("First Name:", self.first_name_edit)
+
+        self.last_name_edit = QLineEdit(self)
+        self.layout.addRow("Last Name:", self.last_name_edit)
+
+        self.job_title_edit = QLineEdit(self)
+        self.layout.addRow("Title:", self.job_title_edit)
+
+        self.bsu_email_edit = QLineEdit(self)
+        self.layout.addRow("BSU Email:", self.bsu_email_edit)
+
+        self.department_edit = QLineEdit(self)
+        self.layout.addRow("Department:", self.department_edit)
+
+        self.submit_button = QPushButton("Submit", self)
+        self.submit_button.clicked.connect(self.submit)
+        self.layout.addRow(self.submit_button)
+
+    def submit(self):
+        first_name = self.first_name_edit.text()
+        last_name = self.last_name_edit.text()
+        job_title = self.job_title_edit.text()
+        bsu_email = self.bsu_email_edit.text()
+        department = self.department_edit.text()
+
+        # Check if BSU email already exists in database
+        conn = sqlite3.connect('demo_db.sqlite')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM records WHERE bsu_email = ?", (bsu_email,))
+        existing_data = cursor.fetchone()
+        if existing_data:
+            QMessageBox.warning(self, "Warning", "BSU email already exists in database.")
+        else:
+            cursor.execute("INSERT INTO records (first_name, last_name, job_title, bsu_email, department) VALUES (?, ?, ?, ?, ?)",
+                           (first_name, last_name, job_title, bsu_email, department))
+            conn.commit()
+            QMessageBox.information(self, "Information", "Data has been added to database.")
+            self.close()
 def run():
     app = QApplication(sys.argv)
     app.setStyle('Windows')
