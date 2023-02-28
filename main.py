@@ -99,6 +99,19 @@ job_shadow TEXT,
 carreer_panel TEXT, summer_2022 TEXT, fall_2022 TEXT, spring_2023 TEXT, summer_2023 TEXT, other TEXT,
 permission TEXT, date_created TEXT,
 created_by TEXT, date_update TEXT, updated_by TEXT);''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS records(
+    first_name TEXT NOT NULL, last_name TEXT NOT NULL,
+    job_title TEXT NOT NULL, bsu_email TEXT NOT NULL, department TEXT NOT NULL);''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS records(
+            EntryId INTEGER NOT NULL,
+            record_type TEXT NOT NULL,
+            record_date TEXT NOT NULL,
+            record_description TEXT NOT NULL,
+            FOREIGN KEY(EntryId) REFERENCES entries(EntryId)
+        );
+    ''')
+
 
 
 if __name__ == '__main__':

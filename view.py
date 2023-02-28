@@ -136,6 +136,10 @@ class MainWindow(QWidget):
         self.agreement.setText("Does BSU have their Permission:")
         self.agreement.setWordWrap(True)
 
+        self.claimButton = QPushButton(self)
+        self.claimButton.setText("Claim Project")
+        self.claimButton.setGeometry(350, 550, 100, 50)
+
         self.cursor.execute("SELECT * FROM entries")
         data1 = self.cursor.fetchall()
 
