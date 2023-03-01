@@ -31,7 +31,6 @@ class FirstWindow(QWidget):
         chooseSelf.setGeometry(0, 200, 150, 200)
         chooseSelf.clicked.connect(self.selfRec_clicked)
 
-
     def updateDataBase(self):
         apiResponse = get_wufoo_data()
         wufooData = apiResponse['Entries']
@@ -54,7 +53,7 @@ class FirstWindow(QWidget):
 
     def selfRec_clicked(self):
         dialog = AddEntryDialog(self)
-        dialog.exec_()
+        dialog.exec()
 
 
 class MainWindow(QWidget):
@@ -221,6 +220,7 @@ class MainWindow(QWidget):
                 checkbox2.setChecked(False)
                 checkbox2.setEnabled(False)
 
+
 class AddEntryDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -247,25 +247,35 @@ class AddEntryDialog(QDialog):
         self.layout.addRow(self.submit_button)
 
     def submit(self):
-        first_name = self.first_name_edit.text()
-        last_name = self.last_name_edit.text()
-        job_title = self.job_title_edit.text()
         bsu_email = self.bsu_email_edit.text()
-        department = self.department_edit.text()
-
-        # Check if BSU email already exists in database
         conn = sqlite3.connect('demo_db.sqlite')
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM records WHERE bsu_email = ?", (bsu_email,))
         existing_data = cursor.fetchone()
         if existing_data:
-            QMessageBox.warning(self, "Warning", "BSU email already exists in database.")
+            QMessageBox.information(self, "Information",
+                                    "Record already exists in database. The fields have been filled in for you.")
+            first_name, last_name, job_title = existing_data[0:3]
+            department = existing_data[4]
+
         else:
-            cursor.execute("INSERT INTO records (first_name, last_name, job_title, bsu_email, department) VALUES (?, ?, ?, ?, ?)",
-                           (first_name, last_name, job_title, bsu_email, department))
+            first_name = self.first_name_edit.text()
+            last_name = self.last_name_edit.text()
+            job_title = self.job_title_edit.text()
+            department = self.department_edit.text()
+            cursor.execute(
+                "INSERT INTO records (first_name, last_name, job_title, bsu_email, department) VALUES (?, ?, ?, ?, ?)",
+                (first_name, last_name, job_title, bsu_email, department))
             conn.commit()
             QMessageBox.information(self, "Information", "Data has been added to database.")
-            self.close()
+
+        self.first_name_edit.setText(first_name)
+        self.last_name_edit.setText(last_name)
+        self.job_title_edit.setText(job_title)
+        self.department_edit.setText(department)
+        self.bsu_email_edit.setFocus()
+
+
 def run():
     app = QApplication(sys.argv)
     app.setStyle('Windows')
