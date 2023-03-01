@@ -103,6 +103,12 @@ created_by TEXT, date_update TEXT, updated_by TEXT);''')
     cursor.execute('''CREATE TABLE IF NOT EXISTS records(
     first_name TEXT NOT NULL, last_name TEXT NOT NULL,
     job_title TEXT NOT NULL, bsu_email TEXT NOT NULL PRIMARY KEY, department TEXT NOT NULL);''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS entry_records(
+        entry_id INTEGER NOT NULL,
+        bsu_email TEXT NOT NULL,
+        FOREIGN KEY (entry_id) REFERENCES entries(EntryId),
+        FOREIGN KEY (bsu_email) REFERENCES records(bsu_email)
+    );''')
 
 
 

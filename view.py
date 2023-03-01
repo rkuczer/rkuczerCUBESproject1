@@ -27,9 +27,9 @@ class FirstWindow(QWidget):
         chooseAlterData.setGeometry(150, 0, 150, 200)
         chooseAlterData.clicked.connect(self.updateDataBase)
 
-        chooseSelf = QPushButton("Add Self-Record", self)
-        chooseSelf.setGeometry(0, 200, 150, 200)
-        chooseSelf.clicked.connect(self.selfRec_clicked)
+        #chooseSelf = QPushButton("Add Self-Record", self)
+        #chooseSelf.setGeometry(0, 200, 150, 200)
+        #chooseSelf.clicked.connect(self.selfRec_clicked)
 
     def updateDataBase(self):
         apiResponse = get_wufoo_data()
@@ -51,9 +51,9 @@ class FirstWindow(QWidget):
         ex = MainWindow()
         ex.show()
 
-    def selfRec_clicked(self):
-        dialog = AddEntryDialog(self)
-        dialog.exec()
+    #def selfRec_clicked(self):
+    #    dialog = AddEntryDialog(self)
+    #    dialog.exec()
 
 
 class MainWindow(QWidget):
@@ -183,6 +183,9 @@ class MainWindow(QWidget):
 
         selectedProject = self.entry_list.itemWidget(selectedItem)
         selectedProject.setStyleSheet("background-color: yellow")
+        dialog = AddEntryDialog(self)
+        dialog.exec()
+
 
     def on_entry_button_clicked(self, entry):
         first_name = entry[1]
