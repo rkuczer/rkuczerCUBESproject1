@@ -142,7 +142,7 @@ class MainWindow(QWidget):
 
         self.claimed_by_label = QLabel(self)
         self.claimed_by_label.setGeometry(550, 550, 100, 50)
-        self.claimed_by_label.setText("Not Claimed")
+        self.claimed_by_label.setText("Claimed by: NONE ")
 
         self.cursor.execute("SELECT * FROM entries")
         data1 = self.cursor.fetchall()
@@ -183,10 +183,11 @@ class MainWindow(QWidget):
         self.project_index = self.entry_list.row(selectedItem) + 1
 
         dialog = AddEntryDialog(self, self.project_index)
+        #if dialog.exec() == AddEntryDialog.Accepted:
 
-        if dialog.exec():
-            claimed_by = dialog.getClaimedBy()
-            self.claimed_by_label.setText(f"Claimed by: {claimed_by}")
+        if dialog.claimed_email:
+            self.claimed_by_label.setText("Claimed by: {}".format(dialog.claimed_email))
+
 
     def on_entry_button_clicked(self, entry):
         first_name = entry[1]
@@ -233,7 +234,6 @@ class AddEntryDialog(QDialog):
 
         self.project_index = project_index
         self.claimed_by = claimed_by
-        #self.project_name = project_name
 
         self.setWindowTitle("Add Entry")
         self.layout = QFormLayout(self)
@@ -256,6 +256,8 @@ class AddEntryDialog(QDialog):
         self.submit_button = QPushButton("Submit", self)
         self.submit_button.clicked.connect(self.submit)
         self.layout.addRow(self.submit_button)
+
+        self.claimed_email = None
 
     def submit(self):
         bsu_email = self.bsu_email_edit.text()
@@ -286,7 +288,9 @@ class AddEntryDialog(QDialog):
         self.job_title_edit.setText(job_title)
         self.department_edit.setText(department)
         self.bsu_email_edit.setFocus()
+
         self.claimed_by = bsu_email
+
         entry_id = self.project_index
         try:
             self.cursor.execute("INSERT INTO entry_records (entry_id, bsu_email) VALUES (?, ?)", (entry_id, bsu_email))
@@ -296,8 +300,7 @@ class AddEntryDialog(QDialog):
             print("Database locked.")
         self.conn.close()
 
-    def getClaimedBy(self):
-        return self.claimed_by
+
 
 
 
