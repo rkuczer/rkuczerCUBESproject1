@@ -27,16 +27,10 @@ class FirstWindow(QWidget):
         chooseAlterData.setGeometry(150, 0, 150, 200)
         chooseAlterData.clicked.connect(self.updateDataBase)
 
-        #chooseSelf = QPushButton("Add Self-Record", self)
-        #chooseSelf.setGeometry(0, 200, 150, 200)
-        #chooseSelf.clicked.connect(self.selfRec_clicked)
-
     def updateDataBase(self):
         apiResponse = get_wufoo_data()
         wufooData = apiResponse['Entries']
 
-        self.conn = sqlite3.connect('demo_db.sqlite')
-        self.cursor = self.conn.cursor()
         self.cursor.execute("SELECT COUNT(*) FROM entries")
         tableRows = self.cursor.fetchone()[0]
 
@@ -51,16 +45,13 @@ class FirstWindow(QWidget):
         ex = MainWindow()
         ex.show()
 
-    #def selfRec_clicked(self):
-    #    dialog = AddEntryDialog(self)
-    #    dialog.exec()
-
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.conn = sqlite3.connect('demo_db.sqlite')
         self.cursor = self.conn.cursor()
+        self.project_index = None
         self.setup()
 
     def setup(self):
@@ -151,6 +142,7 @@ class MainWindow(QWidget):
 
         self.cursor.execute("SELECT * FROM entries")
         data1 = self.cursor.fetchall()
+        self.conn.close()
 
         for entry in data1:
             org_name = entry[4]
@@ -183,9 +175,11 @@ class MainWindow(QWidget):
 
         selectedProject = self.entry_list.itemWidget(selectedItem)
         selectedProject.setStyleSheet("background-color: yellow")
-        dialog = AddEntryDialog(self)
-        dialog.exec()
 
+        self.project_index = self.entry_list.row(selectedItem) + 1
+
+        dialog = AddEntryDialog(self, self.project_index)
+        dialog.exec()
 
     def on_entry_button_clicked(self, entry):
         first_name = entry[1]
@@ -225,8 +219,11 @@ class MainWindow(QWidget):
 
 
 class AddEntryDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent, project_index):
         super().__init__(parent)
+        self.conn = sqlite3.connect('demo_db.sqlite')
+        self.cursor = self.conn.cursor()
+        self.project_index = project_index
         self.setWindowTitle("Add Entry")
         self.layout = QFormLayout(self)
 
@@ -251,10 +248,10 @@ class AddEntryDialog(QDialog):
 
     def submit(self):
         bsu_email = self.bsu_email_edit.text()
-        conn = sqlite3.connect('demo_db.sqlite')
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM records WHERE bsu_email = ?", (bsu_email,))
-        existing_data = cursor.fetchone()
+
+        self.cursor.execute("SELECT * FROM records WHERE bsu_email = ?", (bsu_email,))
+        existing_data = self.cursor.fetchone()
+
         if existing_data:
             QMessageBox.information(self, "Information",
                                     "Record already exists in database. The fields have been filled in for you.")
@@ -266,17 +263,27 @@ class AddEntryDialog(QDialog):
             last_name = self.last_name_edit.text()
             job_title = self.job_title_edit.text()
             department = self.department_edit.text()
-            cursor.execute(
+            self.cursor.execute(
                 "INSERT INTO records (first_name, last_name, job_title, bsu_email, department) VALUES (?, ?, ?, ?, ?)",
                 (first_name, last_name, job_title, bsu_email, department))
-            conn.commit()
-            QMessageBox.information(self, "Information", "Data has been added to database.")
+            self.conn.commit()
+            QMessageBox.information(self, "Information",
+                                    "Your faculty information has been added to database, your project has been claimed.")
 
         self.first_name_edit.setText(first_name)
         self.last_name_edit.setText(last_name)
         self.job_title_edit.setText(job_title)
         self.department_edit.setText(department)
         self.bsu_email_edit.setFocus()
+        entry_id = self.project_index
+        try:
+            self.cursor.execute("INSERT INTO entry_records (entry_id, bsu_email) VALUES (?, ?)", (entry_id, bsu_email))
+            self.conn.commit()
+            QMessageBox.information(self, "Information", "Data has been added to database.")
+        except sqlite3.IntegrityError:
+            print("Database locked.")
+        self.conn.close()
+        close_db(self.conn)
 
 
 def run():
