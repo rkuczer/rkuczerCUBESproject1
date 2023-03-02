@@ -109,6 +109,14 @@ created_by TEXT, date_update TEXT, updated_by TEXT);''')
         FOREIGN KEY (entry_id) REFERENCES entries(EntryId),
         FOREIGN KEY (bsu_email) REFERENCES records(bsu_email)
     );''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS isClaimed(
+        entry_id INTEGER NOT NULL,
+        bsu_email TEXT NOT NULL,
+        is_claimed BOOLEAN NOT NULL,
+        PRIMARY KEY (entry_id),
+        FOREIGN KEY (entry_id) REFERENCES entries(EntryId),
+        FOREIGN KEY (bsu_email) REFERENCES records(bsu_email)
+    );''')
 
 
 

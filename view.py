@@ -53,6 +53,7 @@ class MainWindow(QWidget):
         self.cursor = self.conn.cursor()
         self.project_index = None
         self.setup()
+        self.claimButtonPressed = False
 
     def setup(self):
         self.setWindowTitle("CUBES Project List")
@@ -140,9 +141,12 @@ class MainWindow(QWidget):
         self.claimButton.setText("Claim Project")
         self.claimButton.setGeometry(350, 550, 100, 50)
 
-        self.claimed_by_label = QLabel(self)
-        self.claimed_by_label.setGeometry(550, 550, 100, 50)
-        self.claimed_by_label.setText("Claimed by: NONE ")
+        self.claimed_by = QCheckBox(self)
+        self.claimed_by.setChecked(False)
+        self.claimed_by.setEnabled(False)
+        self.claimed_by.setGeometry(550, 550, 150, 150)
+        self.claimed_by.setText("Project Claim by: ")
+
 
         self.cursor.execute("SELECT * FROM entries")
         data1 = self.cursor.fetchall()
@@ -182,14 +186,27 @@ class MainWindow(QWidget):
 
         self.project_index = self.entry_list.row(selectedItem) + 1
 
-        dialog = AddEntryDialog(self, self.project_index)
-        #if dialog.exec() == AddEntryDialog.Accepted:
+        self.claimButtonPressed = True
+        dialog = AddEntryDialog(self, self.project_index, self.claimButtonPressed)
 
-        if dialog.claimed_email:
-            self.claimed_by_label.setText("Claimed by: {}".format(dialog.claimed_email))
+        dialog.exec()
 
 
     def on_entry_button_clicked(self, entry):
+        self.conn = sqlite3.connect('demo_db.sqlite')
+        self.cursor = self.conn.cursor()
+        entry_id = entry[0]
+        self.cursor.execute("SELECT is_claimed, bsu_email FROM isClaimed WHERE entry_id=?", (entry_id,))
+        rowResult = self.cursor.fetchone()
+        self.conn.close()
+
+        if rowResult:
+            is_claimed, bsu_email = rowResult
+            self.claimed_by.setChecked(is_claimed)
+            self.claimed_by.setText("Claimed by: {}".format(bsu_email))
+        else:
+            self.claimed_by.setChecked(False)
+            self.claimed_by.setText("Not claimed")
         first_name = entry[1]
         self.first_name.setText("First Name: {}".format(first_name))
         last_name = entry[2]
@@ -227,11 +244,12 @@ class MainWindow(QWidget):
 
 
 class AddEntryDialog(QDialog):
-    def __init__(self, parent, project_index, claimed_by=''):
+    def __init__(self, parent, project_index, claimButtonPressed, claimed_by=''):
         super().__init__(parent)
         self.conn = sqlite3.connect('demo_db.sqlite')
         self.cursor = self.conn.cursor()
 
+        self.claimButtonPressed = claimButtonPressed
         self.project_index = project_index
         self.claimed_by = claimed_by
 
@@ -261,7 +279,10 @@ class AddEntryDialog(QDialog):
 
     def submit(self):
         bsu_email = self.bsu_email_edit.text()
-
+        try:
+            self.cursor.execute("INSERT INTO isClaimed (entry_id, is_claimed, bsu_email) VALUES (?, ?, ?)", (self.project_index, 1, bsu_email))
+        except sqlite3.IntegrityError:
+            pass
         self.cursor.execute("SELECT * FROM records WHERE bsu_email = ?", (bsu_email,))
         existing_data = self.cursor.fetchone()
 
@@ -270,6 +291,11 @@ class AddEntryDialog(QDialog):
                                     "Record already exists in database. The fields have been filled in for you.")
             first_name, last_name, job_title = existing_data[0:3]
             department = existing_data[4]
+            self.first_name_edit.setText(first_name)
+            self.last_name_edit.setText(last_name)
+            self.job_title_edit.setText(job_title)
+            self.department_edit.setText(department)
+            self.bsu_email_edit.setFocus()
 
         else:
             first_name = self.first_name_edit.text()
@@ -283,26 +309,17 @@ class AddEntryDialog(QDialog):
             QMessageBox.information(self, "Information",
                                     "Your faculty information has been added to database, your project has been claimed.")
 
-        self.first_name_edit.setText(first_name)
-        self.last_name_edit.setText(last_name)
-        self.job_title_edit.setText(job_title)
-        self.department_edit.setText(department)
-        self.bsu_email_edit.setFocus()
 
-        self.claimed_by = bsu_email
+        #self.claimed_by = bsu_email
 
         entry_id = self.project_index
         try:
             self.cursor.execute("INSERT INTO entry_records (entry_id, bsu_email) VALUES (?, ?)", (entry_id, bsu_email))
             self.conn.commit()
-            QMessageBox.information(self, "Information", "Data has been added to database.")
+            QMessageBox.information(self, "Information", "Data has been added to project link table.")
         except sqlite3.IntegrityError:
             print("Database locked.")
         self.conn.close()
-
-
-
-
 
 
 def run():
