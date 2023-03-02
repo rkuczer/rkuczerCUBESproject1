@@ -283,7 +283,7 @@ class AddEntryDialog(QDialog):
         except sqlite3.IntegrityError:
             print("Database locked.")
         self.conn.close()
-        close_db(self.conn)
+
 
 
 def run():
