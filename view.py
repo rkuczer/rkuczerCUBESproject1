@@ -16,7 +16,7 @@ class FirstWindow(QWidget):
 
     def setup(self):
         self.setWindowTitle("CUBES Project Main Window")
-        self.setGeometry(100, 100, 300, 400)
+        self.setGeometry(100, 100, 300, 200)
 
         chooseDataVis = QPushButton("Data Visualization", self)
         chooseDataVis.setGeometry(0, 0, 150, 200)
@@ -153,8 +153,8 @@ class MainWindow(QWidget):
         self.claimed_by = QCheckBox(self)
         self.claimed_by.setChecked(False)
         self.claimed_by.setEnabled(False)
-        self.claimed_by.setGeometry(550, 450, 200, 200)
-        self.claimed_by.setText("Project Claim by: ")
+        self.claimed_by.setGeometry(500, 400, 350, 350)
+        self.claimed_by.setText("Project Not Claimed")
 
 
         self.cursor.execute("SELECT * FROM entries")
