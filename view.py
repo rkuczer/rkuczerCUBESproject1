@@ -53,7 +53,16 @@ class MainWindow(QWidget):
         self.cursor = self.conn.cursor()
         self.project_index = None
         self.setup()
-        self.claimButtonPressed = False
+        try:
+            self.cursor.execute("SELECT entry_id FROM isClaimed WHERE is_claimed=1")
+            claimed_ids = self.cursor.fetchall()
+            for entry_id in claimed_ids:
+                project = self.entry_list.itemWidget(self.entry_list.item(entry_id[0] - 1))
+                project.setStyleSheet("background-color: yellow")
+        except sqlite3.IntegrityError:
+            QMessageBox.warning(self, "Error", "Sqlite Integrity Error.")
+        self.conn.close()
+
 
     def setup(self):
         self.setWindowTitle("CUBES Project List")
@@ -144,13 +153,13 @@ class MainWindow(QWidget):
         self.claimed_by = QCheckBox(self)
         self.claimed_by.setChecked(False)
         self.claimed_by.setEnabled(False)
-        self.claimed_by.setGeometry(550, 550, 150, 150)
+        self.claimed_by.setGeometry(550, 450, 200, 200)
         self.claimed_by.setText("Project Claim by: ")
 
 
         self.cursor.execute("SELECT * FROM entries")
         data1 = self.cursor.fetchall()
-        self.conn.close()
+
 
         for entry in data1:
             org_name = entry[4]
@@ -177,36 +186,49 @@ class MainWindow(QWidget):
         self.claimButton.clicked.connect(self.claimProject)
 
     def claimProject(self):
+        self.conn = sqlite3.connect('demo_db.sqlite')
+        self.cursor = self.conn.cursor()
         selectedItem = self.entry_list.currentItem()
-        if selectedItem is None:
-            print("No button selected")
-
         selectedProject = self.entry_list.itemWidget(selectedItem)
-        selectedProject.setStyleSheet("background-color: yellow")
-
         self.project_index = self.entry_list.row(selectedItem) + 1
 
-        self.claimButtonPressed = True
-        dialog = AddEntryDialog(self, self.project_index, self.claimButtonPressed)
+        if selectedItem is None:
+            print("No button selected")
+        try:
+            self.cursor.execute("SELECT is_claimed FROM isClaimed WHERE entry_id=?", (self.project_index,))
+        except sqlite3.IntegrityError:
+            QMessageBox.warning(self, "Error", "Sqlite Integrity Error.")
+        rowResult = self.cursor.fetchone()
+        self.conn.close()
 
-        dialog.exec()
+        if rowResult:
+            QMessageBox.warning(self, "Error", "This project is already claimed.")
+            return
+        else:
+            selectedProject.setStyleSheet("background-color: yellow")
+            dialog = AddEntryDialog(self, self.project_index)
+            dialog.exec()
 
 
     def on_entry_button_clicked(self, entry):
         self.conn = sqlite3.connect('demo_db.sqlite')
         self.cursor = self.conn.cursor()
+
         entry_id = entry[0]
         self.cursor.execute("SELECT is_claimed, bsu_email FROM isClaimed WHERE entry_id=?", (entry_id,))
         rowResult = self.cursor.fetchone()
         self.conn.close()
 
         if rowResult:
+            #self.selectedProject.setStyleSheet("background-color: yellow")
             is_claimed, bsu_email = rowResult
             self.claimed_by.setChecked(is_claimed)
             self.claimed_by.setText("Claimed by: {}".format(bsu_email))
+
         else:
             self.claimed_by.setChecked(False)
             self.claimed_by.setText("Not claimed")
+
         first_name = entry[1]
         self.first_name.setText("First Name: {}".format(first_name))
         last_name = entry[2]
@@ -244,12 +266,11 @@ class MainWindow(QWidget):
 
 
 class AddEntryDialog(QDialog):
-    def __init__(self, parent, project_index, claimButtonPressed, claimed_by=''):
+    def __init__(self, parent, project_index, claimed_by=''):
         super().__init__(parent)
         self.conn = sqlite3.connect('demo_db.sqlite')
         self.cursor = self.conn.cursor()
 
-        self.claimButtonPressed = claimButtonPressed
         self.project_index = project_index
         self.claimed_by = claimed_by
 
@@ -308,10 +329,6 @@ class AddEntryDialog(QDialog):
             self.conn.commit()
             QMessageBox.information(self, "Information",
                                     "Your faculty information has been added to database, your project has been claimed.")
-
-
-        #self.claimed_by = bsu_email
-
         entry_id = self.project_index
         try:
             self.cursor.execute("INSERT INTO entry_records (entry_id, bsu_email) VALUES (?, ?)", (entry_id, bsu_email))
@@ -320,6 +337,8 @@ class AddEntryDialog(QDialog):
         except sqlite3.IntegrityError:
             print("Database locked.")
         self.conn.close()
+        self.close()
+
 
 
 def run():
