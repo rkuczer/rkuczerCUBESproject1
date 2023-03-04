@@ -26,7 +26,6 @@ def test_clear_button_clears_fields(qtbot: QtBot):
 
 def test_submit_existing_record(qtbot: QtBot):
     conn = sqlite3.connect('demo_db.sqlite')
-    cursor = conn.cursor()
     dialog = AddEntryDialog(None, 1)
     test_record = ('John', 'Doe', 'Engineer', 'johndoe@example.com', 'Engineering')
     dialog.bsu_email_edit.setText(test_record[3])

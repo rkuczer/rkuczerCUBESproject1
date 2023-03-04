@@ -5,8 +5,6 @@ from typing import Tuple
 from secrets import wufoo_key
 from requests.auth import HTTPBasicAuth
 
-
-
 url = "https://rkuczer.wufoo.com/api/v3/forms/cubes-project-proposal-submission/entries/json"
 
 
@@ -119,9 +117,5 @@ created_by TEXT, date_update TEXT, updated_by TEXT);''')
     );''')
 
 
-
-
-
 if __name__ == '__main__':
     main()
-
