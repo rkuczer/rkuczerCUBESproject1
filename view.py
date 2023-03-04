@@ -1,5 +1,7 @@
 import sqlite3
 import sys
+
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, \
     QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QCheckBox, QGroupBox, QDialog, QFormLayout, QLineEdit, \
     QMessageBox
@@ -316,8 +318,12 @@ class AddEntryDialog(QDialog):
         existing_data = self.cursor.fetchone()
 
         if existing_data:
-            QMessageBox.information(self, "Information",
-                                    "Record already exists in database. The fields have been filled in for you.")
+            msg_box = QMessageBox()
+            msg_box.setText("Record already exists in database. The fields have been filled in for you.")
+            msg_box.show()
+            time = 2000
+            QTimer.singleShot(time, lambda : msg_box.done(0))
+
             first_name, last_name, job_title = existing_data[0:3]
             department = existing_data[4]
             self.first_name_edit.setText(first_name)
@@ -327,6 +333,7 @@ class AddEntryDialog(QDialog):
             self.bsu_email_edit.setFocus()
 
         else:
+            time = 2000
             first_name = self.first_name_edit.text()
             last_name = self.last_name_edit.text()
             job_title = self.job_title_edit.text()
@@ -335,13 +342,14 @@ class AddEntryDialog(QDialog):
                 "INSERT INTO records (first_name, last_name, job_title, bsu_email, department) VALUES (?, ?, ?, ?, ?)",
                 (first_name, last_name, job_title, bsu_email, department))
             self.conn.commit()
-            QMessageBox.information(self, "Information",
-                                    "Your faculty information has been added to database, your project has been claimed.")
+            msgBox2 = QMessageBox()
+            msgBox2.setText("Your faculty information has been added to database, your project has been claimed.")
+            msgBox2.show()
+            QTimer.singleShot(time, lambda: msgBox2.done(0))
         entry_id = self.project_index
         try:
             self.cursor.execute("INSERT INTO entry_records (entry_id, bsu_email) VALUES (?, ?)", (entry_id, bsu_email))
             self.conn.commit()
-            QMessageBox.information(self, "Information", "Data has been added to project link table.")
         except sqlite3.IntegrityError:
             print("Database locked.")
         self.conn.close()

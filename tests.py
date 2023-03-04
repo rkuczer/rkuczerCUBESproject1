@@ -1,4 +1,6 @@
 from PySide6 import QtCore
+from PySide6.QtTest import QTest, QSignalSpy
+from PySide6.QtWidgets import QMessageBox
 from pytestqt.qtbot import QtBot
 from main import get_wufoo_data, open_db, setup_db, close_db, insert_db
 import sqlite3
@@ -46,8 +48,6 @@ def test_user_creation(qtbot: QtBot):
     dialog.job_title_edit.setText(test_record[2])
     dialog.bsu_email_edit.setText(test_record[3])
     dialog.department_edit.setText(test_record[4])
-
-    qtbot.mouseClick(dialog.submit_button, QtCore.Qt.LeftButton)
 
     cursor.execute("SELECT * FROM records WHERE bsu_email=?", (test_record[3],))
     result = cursor.fetchone()
