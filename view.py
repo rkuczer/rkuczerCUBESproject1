@@ -266,9 +266,9 @@ class MainWindow(QWidget):
 
 
 class AddEntryDialog(QDialog):
-    def __init__(self, parent, project_index, claimed_by=''):
+    def __init__(self, parent, project_index, claimed_by='', db_file='demo_db.sqlite'):
         super().__init__(parent)
-        self.conn = sqlite3.connect('demo_db.sqlite')
+        self.conn = sqlite3.connect(db_file)
         self.cursor = self.conn.cursor()
 
         self.project_index = project_index
