@@ -6,6 +6,24 @@ from PySide6.QtGui import Qt
 from view import MainWindow, AddEntryDialog
 
 
+def test_clear_button_clears_fields(qtbot: QtBot):
+    dialog = AddEntryDialog(None, 1)
+
+    dialog.first_name_edit.setText("John")
+    dialog.last_name_edit.setText("Doe")
+    dialog.job_title_edit.setText("Software Engineer")
+    dialog.bsu_email_edit.setText("johndoe@example.com")
+    dialog.department_edit.setText("IT")
+
+    qtbot.mouseClick(dialog.clear_button, Qt.LeftButton)
+
+    assert dialog.first_name_edit.text() == ""
+    assert dialog.last_name_edit.text() == ""
+    assert dialog.job_title_edit.text() == ""
+    assert dialog.bsu_email_edit.text() == ""
+    assert dialog.department_edit.text() == ""
+
+
 def test_submit_existing_record(qtbot: QtBot):
     conn = sqlite3.connect('demo_db.sqlite')
     cursor = conn.cursor()

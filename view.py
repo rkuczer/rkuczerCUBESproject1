@@ -63,7 +63,6 @@ class MainWindow(QWidget):
             QMessageBox.warning(self, "Error", "Sqlite Integrity Error.")
         self.conn.close()
 
-
     def setup(self):
         self.setWindowTitle("CUBES Project List")
         self.setGeometry(100, 100, 800, 650)
@@ -156,10 +155,8 @@ class MainWindow(QWidget):
         self.claimed_by.setGeometry(500, 400, 350, 350)
         self.claimed_by.setText("Project Not Claimed")
 
-
         self.cursor.execute("SELECT * FROM entries")
         data1 = self.cursor.fetchall()
-
 
         for entry in data1:
             org_name = entry[4]
@@ -209,7 +206,6 @@ class MainWindow(QWidget):
             dialog = AddEntryDialog(self, self.project_index)
             dialog.exec()
 
-
     def on_entry_button_clicked(self, entry):
         self.conn = sqlite3.connect('demo_db.sqlite')
         self.cursor = self.conn.cursor()
@@ -220,7 +216,7 @@ class MainWindow(QWidget):
         self.conn.close()
 
         if rowResult:
-            #self.selectedProject.setStyleSheet("background-color: yellow")
+            # self.selectedProject.setStyleSheet("background-color: yellow")
             is_claimed, bsu_email = rowResult
             self.claimed_by.setChecked(is_claimed)
             self.claimed_by.setText("Claimed by: {}".format(bsu_email))
@@ -296,12 +292,24 @@ class AddEntryDialog(QDialog):
         self.submit_button.clicked.connect(self.submit)
         self.layout.addRow(self.submit_button)
 
+        self.clear_button = QPushButton("Clear", self)
+        self.clear_button.clicked.connect(self.clear_fields)
+        self.layout.addRow(self.clear_button)
+
         self.claimed_email = None
+
+    def clear_fields(self):
+        self.first_name_edit.setText('')
+        self.last_name_edit.setText('')
+        self.job_title_edit.setText('')
+        self.bsu_email_edit.setText('')
+        self.department_edit.setText('')
 
     def submit(self):
         bsu_email = self.bsu_email_edit.text()
         try:
-            self.cursor.execute("INSERT INTO isClaimed (entry_id, is_claimed, bsu_email) VALUES (?, ?, ?)", (self.project_index, 1, bsu_email))
+            self.cursor.execute("INSERT INTO isClaimed (entry_id, is_claimed, bsu_email) VALUES (?, ?, ?)",
+                                (self.project_index, 1, bsu_email))
         except sqlite3.IntegrityError:
             pass
         self.cursor.execute("SELECT * FROM records WHERE bsu_email = ?", (bsu_email,))
@@ -338,7 +346,6 @@ class AddEntryDialog(QDialog):
             print("Database locked.")
         self.conn.close()
         self.close()
-
 
 
 def run():
