@@ -47,6 +47,8 @@ def test_user_creation(qtbot: QtBot):
     dialog.bsu_email_edit.setText(test_record[3])
     dialog.department_edit.setText(test_record[4])
 
+    qtbot.mouseClick(dialog.submit_button, QtCore.Qt.LeftButton)
+
     cursor.execute("SELECT * FROM records WHERE bsu_email=?", (test_record[3],))
     result = cursor.fetchone()
     assert result == test_record
