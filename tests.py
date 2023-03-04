@@ -1,6 +1,4 @@
 from PySide6 import QtCore
-from PySide6.QtTest import QTest, QSignalSpy
-from PySide6.QtWidgets import QMessageBox
 from pytestqt.qtbot import QtBot
 from main import get_wufoo_data, open_db, setup_db, close_db, insert_db
 import sqlite3

@@ -1,6 +1,5 @@
 import sqlite3
 import sys
-
 from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, \
     QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QCheckBox, QGroupBox, QDialog, QFormLayout, QLineEdit, \
@@ -322,7 +321,7 @@ class AddEntryDialog(QDialog):
             msg_box.setText("Record already exists in database. The fields have been filled in for you.")
             msg_box.show()
             time = 2000
-            QTimer.singleShot(time, lambda : msg_box.done(0))
+            QTimer.singleShot(time, lambda: msg_box.done(0))
 
             first_name, last_name, job_title = existing_data[0:3]
             department = existing_data[4]

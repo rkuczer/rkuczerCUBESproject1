@@ -1,7 +1,7 @@
 Ryan Kuczer
 COMP 490
 
-Imports: From requests.auth import HTTPBasicAuth, import sys, import requests, from typing import Tuple. In tests.py I import the functions from main.py and from pytestqt.qtbot import QtBot. 
+Imports: From requests.Auth import HTTPBasicAuth, import sys, import requests, from typing import Tuple. In tests.py I import the functions from main.py and from pytestqt.qtbot import QtBot. 
 In view.py I import from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QCheckBox, QGroupBox and from functools import partial.
 
 An API key is to be imported, a subdomain and form hash variables are needed to be changed to your own form's in the main.py file, the api key is not committed to the project on GitHub.
