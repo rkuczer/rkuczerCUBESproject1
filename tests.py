@@ -49,7 +49,6 @@ def test_user_creation(qtbot: QtBot):
     conn.close()
 
 
-@pytest.mark.dependency(depends=["test_user_creation"])
 def test_submit_existing_record(qtbot: QtBot):
     dialog = AddEntryDialog(None, 1)
     test_record = ('John', 'Doe', 'Engineer', 'johndoe@example.com', 'Engineering')
@@ -60,9 +59,8 @@ def test_submit_existing_record(qtbot: QtBot):
     assert dialog.job_title_edit.text() == 'Engineer'
     assert dialog.department_edit.text() == 'Engineering'
 
-@pytest.mark.dependency()
+
 def test_user_creation(qtbot: QtBot):
-    #this test claims the first project as a test.
     conn = sqlite3.connect('demo_db.sqlite')
     cursor = conn.cursor()
     test_record = ('John', 'Doe', 'Engineer', 'johndoe@example.com', 'Engineering')
