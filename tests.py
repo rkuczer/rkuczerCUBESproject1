@@ -1,3 +1,4 @@
+import pytest
 from PySide6 import QtCore
 from pytestqt.qtbot import QtBot
 from main import get_wufoo_data, open_db, setup_db, close_db, insert_db
@@ -23,8 +24,33 @@ def test_clear_button_clears_fields(qtbot: QtBot):
     assert dialog.bsu_email_edit.text() == ""
     assert dialog.department_edit.text() == ""
 
+@pytest.mark.dependency()
+def test_user_creation(qtbot: QtBot):
+    #this test claims the first project as a test.
+    conn = sqlite3.connect('demo_db.sqlite')
+    cursor = conn.cursor()
+    test_record = ('John', 'Doe', 'Engineer', 'johndoe@example.com', 'Engineering')
 
+    dialog = AddEntryDialog(None, 1)
+    dialog.first_name_edit.setText(test_record[0])
+    dialog.last_name_edit.setText(test_record[1])
+    dialog.job_title_edit.setText(test_record[2])
+    dialog.bsu_email_edit.setText(test_record[3])
+    dialog.department_edit.setText(test_record[4])
+
+    qtbot.mouseClick(dialog.submit_button, QtCore.Qt.LeftButton)
+
+    cursor.execute("SELECT * FROM records WHERE bsu_email=?", (test_record[3],))
+    result = cursor.fetchone()
+    assert result == test_record
+
+    # Close the dialog and the database connection
+    dialog.close()
+    conn.close()
+
+@pytest.mark.dependency(depends=["test_user_creation"])
 def test_submit_existing_record(qtbot: QtBot):
+    #this test is dependent on test_user_creation
     dialog = AddEntryDialog(None, 1)
     test_record = ('John', 'Doe', 'Engineer', 'johndoe@example.com', 'Engineering')
     dialog.bsu_email_edit.setText(test_record[3])
@@ -34,8 +60,9 @@ def test_submit_existing_record(qtbot: QtBot):
     assert dialog.job_title_edit.text() == 'Engineer'
     assert dialog.department_edit.text() == 'Engineering'
 
-
+@pytest.mark.dependency()
 def test_user_creation(qtbot: QtBot):
+    #this test claims the first project as a test.
     conn = sqlite3.connect('demo_db.sqlite')
     cursor = conn.cursor()
     test_record = ('John', 'Doe', 'Engineer', 'johndoe@example.com', 'Engineering')
