@@ -25,7 +25,6 @@ def test_clear_button_clears_fields(qtbot: QtBot):
     assert dialog.department_edit.text() == ""
 
 
-@pytest.mark.dependency()
 def test_user_creation(qtbot: QtBot):
     conn = sqlite3.connect('demo_db.sqlite')
     cursor = conn.cursor()
