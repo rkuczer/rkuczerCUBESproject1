@@ -24,9 +24,9 @@ def test_clear_button_clears_fields(qtbot: QtBot):
     assert dialog.bsu_email_edit.text() == ""
     assert dialog.department_edit.text() == ""
 
+
 @pytest.mark.dependency()
 def test_user_creation(qtbot: QtBot):
-    #this test claims the first project as a test.
     conn = sqlite3.connect('demo_db.sqlite')
     cursor = conn.cursor()
     test_record = ('John', 'Doe', 'Engineer', 'johndoe@example.com', 'Engineering')
@@ -48,9 +48,9 @@ def test_user_creation(qtbot: QtBot):
     dialog.close()
     conn.close()
 
+
 @pytest.mark.dependency(depends=["test_user_creation"])
 def test_submit_existing_record(qtbot: QtBot):
-    #this test is dependent on test_user_creation
     dialog = AddEntryDialog(None, 1)
     test_record = ('John', 'Doe', 'Engineer', 'johndoe@example.com', 'Engineering')
     dialog.bsu_email_edit.setText(test_record[3])
