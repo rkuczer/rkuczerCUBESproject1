@@ -274,6 +274,10 @@ class AddEntryDialog(QDialog):
         self.setWindowTitle("Add Entry")
         self.layout = QFormLayout(self)
 
+        self.enterEmail = QLabel(self)
+        self.enterEmail.setText("Please enter BSU Email first.")
+        self.layout.addRow(self.enterEmail)
+
         self.first_name_edit = QLineEdit(self)
         self.layout.addRow("First Name:", self.first_name_edit)
 
@@ -320,7 +324,7 @@ class AddEntryDialog(QDialog):
             msg_box = QMessageBox()
             msg_box.setText("Record already exists in database. The fields have been filled in for you.")
             msg_box.show()
-            time = 2000
+            time = 5000
             QTimer.singleShot(time, lambda: msg_box.done(0))
 
             first_name, last_name, job_title = existing_data[0:3]
@@ -332,7 +336,7 @@ class AddEntryDialog(QDialog):
             self.bsu_email_edit.setFocus()
 
         else:
-            time = 2000
+            time = 5000
             first_name = self.first_name_edit.text()
             last_name = self.last_name_edit.text()
             job_title = self.job_title_edit.text()

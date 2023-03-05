@@ -7,6 +7,8 @@ In view.py I import from PySide6.QtWidgets import QApplication, QWidget, QPushBu
 An API key is to be imported, a subdomain and form hash variables are needed to be changed to your own form's in the main.py file, the api key is not committed to the project on GitHub.
 
 TO RUN: First run Main.py to create the database and wufoo entries. Then run view.py to show the GUI that handles everything else.
+TO RUN TESTS PROPERLY: Please run the 'test user creation' test, before running the test 'test_submit_existing_record' since it checks for the record
+that was inserted from the test_user_creation test. 
 
 The project gets info from my wufoo form and saves it to a sqlite table that is a part of a database.
 There is two tests implemented the first checks if the correct number of data entries are returned from the wufoo api.
