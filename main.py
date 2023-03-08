@@ -114,7 +114,7 @@ created_by TEXT, date_update TEXT, updated_by TEXT);''')
         department TEXT NOT NULL,
         PRIMARY KEY (entry_id),
         FOREIGN KEY (entry_id) REFERENCES entries(EntryId),
-        FOREIGN KEY (bsu_email) REFERENCES records(bsu_email), 
+        FOREIGN KEY (bsu_email) REFERENCES records(bsu_email),
         FOREIGN KEY (department) REFERENCES records(department)
     );''')
 

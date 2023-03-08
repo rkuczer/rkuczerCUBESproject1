@@ -21,7 +21,9 @@ There is a button that creates a button for each entry and once selected the use
 It includes names, their collaboration level, etc. in the form of QLabel's, QCheckBoxes, QvBoxLayouts, etc.
 There are also 4 tests that check the functionality of the QLabel's presenting the correct info, the QCheckboxes
 and test if there is entries in the database as well. There is also now a claim button that allows faculty users to claim projects
-they need to enter their first name, last name, title, bsu email which is the identifier for the claimed porject as well as their department.
+they need to enter their first name, last name, title, and bsu email which is the identifier for the claimed project as well as their department.
+The project is then shown as claimed after they successfully claimed it with a checkbox in the bottom right of the mainwindow gui 
+as well as the project button in the entry list being changed to yellow.
 
 Currently, the database layout is made up of 4 tables. Entries which has the primary key of entryId that stores the wufoo response from the API for form responses.
 The second table records stores the name, email, title and department of each faculty member adding their record.
