@@ -212,15 +212,15 @@ class MainWindow(QWidget):
         self.cursor = self.conn.cursor()
 
         entry_id = entry[0]
-        self.cursor.execute("SELECT is_claimed, bsu_email FROM isClaimed WHERE entry_id=?", (entry_id,))
+        self.cursor.execute("SELECT is_claimed, bsu_email, department FROM isClaimed WHERE entry_id=?", (entry_id,))
         rowResult = self.cursor.fetchone()
         self.conn.close()
 
         if rowResult:
             # self.selectedProject.setStyleSheet("background-color: yellow")
-            is_claimed, bsu_email = rowResult
+            is_claimed, bsu_email, department = rowResult
             self.claimed_by.setChecked(is_claimed)
-            self.claimed_by.setText("Claimed by: {}".format(bsu_email))
+            self.claimed_by.setText("Claimed by: {}\nDepartment: {}".format(bsu_email, department))
 
         else:
             self.claimed_by.setChecked(False)
@@ -312,9 +312,10 @@ class AddEntryDialog(QDialog):
 
     def submit(self):
         bsu_email = self.bsu_email_edit.text()
+        department = self.department_edit.text()
         try:
-            self.cursor.execute("INSERT INTO isClaimed (entry_id, is_claimed, bsu_email) VALUES (?, ?, ?)",
-                                (self.project_index, 1, bsu_email))
+            self.cursor.execute("INSERT INTO isClaimed (entry_id, is_claimed, bsu_email, department) VALUES (?, ?, ?, ?)",
+                                (self.project_index, 1, bsu_email, department))
         except sqlite3.IntegrityError:
             pass
         self.cursor.execute("SELECT * FROM records WHERE bsu_email = ?", (bsu_email,))

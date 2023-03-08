@@ -98,22 +98,27 @@ job_shadow TEXT,
 carreer_panel TEXT, summer_2022 TEXT, fall_2022 TEXT, spring_2023 TEXT, summer_2023 TEXT, other TEXT,
 permission TEXT, date_created TEXT,
 created_by TEXT, date_update TEXT, updated_by TEXT);''')
+
     cursor.execute('''CREATE TABLE IF NOT EXISTS records(
     first_name TEXT NOT NULL, last_name TEXT NOT NULL,
     job_title TEXT NOT NULL, bsu_email TEXT NOT NULL PRIMARY KEY, department TEXT NOT NULL);''')
+
     cursor.execute('''CREATE TABLE IF NOT EXISTS entry_records(
         entry_id INTEGER NOT NULL,
         bsu_email TEXT NOT NULL,
         FOREIGN KEY (entry_id) REFERENCES entries(EntryId),
         FOREIGN KEY (bsu_email) REFERENCES records(bsu_email)
     );''')
+
     cursor.execute('''CREATE TABLE IF NOT EXISTS isClaimed(
         entry_id INTEGER NOT NULL,
         bsu_email TEXT NOT NULL,
         is_claimed BOOLEAN NOT NULL,
+        department TEXT NOT NULL,
         PRIMARY KEY (entry_id),
         FOREIGN KEY (entry_id) REFERENCES entries(EntryId),
-        FOREIGN KEY (bsu_email) REFERENCES records(bsu_email)
+        FOREIGN KEY (bsu_email) REFERENCES records(bsu_email), 
+        FOREIGN KEY (department) REFERENCES records(department)
     );''')
 
 

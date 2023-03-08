@@ -20,7 +20,8 @@ After receiving the data from the wufoo response the program now creates a GUI w
 There is a button that creates a button for each entry and once selected the user can view all the entry's info for the user.
 It includes names, their collaboration level, etc. in the form of QLabel's, QCheckBoxes, QvBoxLayouts, etc.
 There are also 4 tests that check the functionality of the QLabel's presenting the correct info, the QCheckboxes
-and test if there is entries in the database as well.
+and test if there is entries in the database as well. There is also now a claim button that allows faculty users to claim projects
+they need to enter their first name, last name, title, bsu email which is the identifier for the claimed porject as well as their department.
 
 Currently, the database layout is made up of 4 tables. Entries which has the primary key of entryId that stores the wufoo response from the API for form responses.
 The second table records stores the name, email, title and department of each faculty member adding their record.
